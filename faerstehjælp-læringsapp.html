@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Førstehjælp · FSU</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap');
+:root{--bg:#0d0f0a;--bg2:#141810;--bg3:#1c2214;--border:#2a3520;--border2:#3a4a28;--green:#4ade80;--amber:#fbbf24;--red:#f87171;--text:#e8f0e0;--muted:#6b7c60;--muted2:#8a9a78;--white:#f0f5ea;--correct:#22c55e;--wrong:#ef4444;--r:12px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{height:100%;background:var(--bg)}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100%;overflow-x:hidden;padding-bottom:calc(72px + env(safe-area-inset-bottom));-webkit-font-smoothing:antialiased}
+header{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 16px;padding-top:calc(12px + env(safe-area-inset-top));display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:300}
+.logo{background:var(--green);color:#0a1a06;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:3px 8px;border-radius:4px;flex-shrink:0}
+header h1{font-size:16px;font-weight:700;color:var(--white);letter-spacing:-.3px}
+.bnav{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);z-index:300;padding-bottom:env(safe-area-inset-bottom)}
+.bnav button{background:none;border:none;color:var(--muted);padding:10px 4px 9px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:inherit;transition:color .15s}
+.bnav button .ni{font-size:20px;line-height:1}
+.bnav button .nl{font-size:10px;font-weight:600;letter-spacing:.3px}
+.bnav button.active{color:var(--green)}
+.page{display:none}.page.active{display:block}
+.wrap{padding:16px 14px 4px;max-width:640px;margin:0 auto}
+.ptitle{font-size:22px;font-weight:800;color:var(--white);letter-spacing:-.5px;margin-bottom:4px}
+.psub{font-size:13px;color:var(--muted2);margin-bottom:18px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.card-g{border-left:3px solid var(--green)}.card-a{border-left:3px solid var(--amber)}.card-r{border-left:3px solid var(--red)}
+.abc-row{display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:start}
+.abc-L{font-size:50px;font-weight:900;line-height:1;color:var(--green)}
+.abc-body h3{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted2);margin-bottom:8px}
+.abc-body ul{list-style:none}
+.abc-body ul li{font-size:14px;line-height:1.8;color:var(--text);padding-left:14px;position:relative}
+.abc-body ul li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--green);opacity:.55}
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.stat{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 12px;text-align:center}
+.sv{font-size:26px;font-weight:900;color:var(--amber);letter-spacing:-1px;line-height:1;display:block}
+.sl{font-size:11px;color:var(--muted2);font-weight:500;display:block;margin-top:3px}
+.hlr-hero{border-radius:var(--r);padding:18px 16px;margin-bottom:12px;display:flex;align-items:center;gap:16px}
+.hlr-r{background:linear-gradient(135deg,#1a0808,#2d0f0f);border:1px solid #3d1515}
+.hlr-g{background:linear-gradient(135deg,#071a0b,#0f2d14);border:1px solid #153d1a}
+.hlr-num{font-size:68px;font-weight:900;line-height:1;flex-shrink:0;letter-spacing:-3px}
+.hlr-r .hlr-num{color:var(--red)}.hlr-g .hlr-num{color:var(--green)}
+.hlr-info h3{font-size:15px;font-weight:700;color:var(--white);margin-bottom:5px}
+.hlr-info p{font-size:13px;color:var(--muted2);line-height:1.55}
+.alert{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.6;color:var(--text);margin-bottom:12px}
+.alert strong{color:var(--red)}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:16px;border-radius:10px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{background:var(--bg3);color:var(--muted2);padding:10px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+tbody td{padding:10px 12px;border-top:1px solid var(--border);color:var(--text);font-size:13px}
+tbody tr:nth-child(even) td{background:rgba(255,255,255,.015)}
+.chip{display:inline-block;background:var(--bg3);border:1px solid var(--border2);color:var(--muted2);font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;letter-spacing:.5px;text-transform:uppercase}
+.chip.scenario{background:rgba(251,191,36,.1);border-color:rgba(251,191,36,.35);color:var(--amber);letter-spacing:0;font-size:11px}
+.divider{height:1px;background:var(--border);margin:16px 0}
+.steps{list-style:none}
+.steps li{display:flex;gap:10px;margin-bottom:10px;font-size:14px;line-height:1.5;color:var(--text);align-items:flex-start}
+.snum{min-width:22px;height:22px;background:var(--green);color:#071a06;border-radius:50%;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.warn{color:var(--red);font-weight:700}.em{color:var(--green);font-weight:700}
+/* QUIZ */
+.qhdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.ql{font-size:12px;font-weight:600;color:var(--muted2)}
+.qr{font-size:12px;font-weight:700;color:var(--white)}
+.pbar{height:4px;background:var(--bg3);border-radius:2px;margin-bottom:16px;overflow:hidden}
+.pbar-fill{height:100%;background:linear-gradient(90deg,var(--green),#86efac);border-radius:2px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.qcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px 16px 16px;margin-bottom:12px}
+.qtext{font-size:17px;font-weight:700;line-height:1.45;color:var(--white);margin:10px 0 18px;letter-spacing:-.2px}
+.opts{display:grid;gap:9px}
+.opt{background:var(--bg3);border:1.5px solid var(--border);color:var(--text);padding:14px;min-height:54px;text-align:left;cursor:pointer;border-radius:10px;font-family:'Inter',sans-serif;font-size:14px;font-weight:500;line-height:1.4;transition:border-color .12s,background .12s;display:flex;align-items:center;gap:12px;width:100%}
+.opt:active:not(:disabled){background:var(--bg2);border-color:var(--border2)}
+.opt.correct{border-color:var(--correct);background:rgba(34,197,94,.1)}
+.opt.wrong{border-color:var(--wrong);background:rgba(239,68,68,.1)}
+.oltr{font-size:12px;font-weight:800;color:var(--muted);min-width:22px;height:22px;border-radius:6px;background:var(--bg2);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .12s}
+.opt.correct .oltr{background:var(--correct);border-color:var(--correct);color:#fff}
+.opt.wrong .oltr{background:var(--wrong);border-color:var(--wrong);color:#fff}
+.fb{border-radius:12px;padding:0;font-size:14px;line-height:1.6;display:none;margin-bottom:12px;overflow:hidden}
+.fb.show{display:block}
+.fb.ok{border:1px solid rgba(34,197,94,.35)}
+.fb.bad{border:1px solid rgba(239,68,68,.35)}
+.fb-verdict{padding:12px 16px 10px;font-size:16px;font-weight:800;letter-spacing:-.2px}
+.fb.ok .fb-verdict{background:rgba(34,197,94,.12);color:var(--correct)}
+.fb.bad .fb-verdict{background:rgba(239,68,68,.12);color:var(--wrong)}
+.fb-correct{padding:10px 16px 0;font-size:14px;color:var(--text)}
+.fb-correct strong{color:var(--green)}
+.fb-explain{padding:10px 16px 14px;font-size:14px;color:var(--muted2);line-height:1.65;border-top:1px solid var(--border);margin-top:10px}
+.bigbtn{width:100%;background:var(--green);color:#071a06;border:none;padding:16px;border-radius:10px;font-family:'Inter',sans-serif;font-size:15px;font-weight:800;letter-spacing:-.2px;cursor:pointer;transition:opacity .15s}
+.bigbtn:active{opacity:.85}
+.bigbtn.out{background:transparent;border:1.5px solid var(--border2);color:var(--muted2);margin-top:8px}
+.score-screen{text-align:center;padding:32px 4px}
+.score-num{font-size:80px;font-weight:900;letter-spacing:-4px;color:var(--white);line-height:1}
+.score-pct{font-size:15px;font-weight:700;margin:8px 0 4px}
+.score-grade{font-size:13px;color:var(--muted2);margin-bottom:28px}
+.wlist{text-align:left;margin-bottom:16px}
+.witem{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;font-size:13px}
+.wq{font-weight:600;color:var(--white);margin-bottom:4px}
+.wa{color:var(--green);font-size:12px}
+/* FLASHCARDS */
+.fc-area{perspective:1200px;margin-bottom:14px;min-height:230px}
+.fc{width:100%;min-height:230px;position:relative;transform-style:preserve-3d;transition:transform .4s cubic-bezier(.4,0,.2,1);cursor:pointer;-webkit-user-select:none;user-select:none}
+.fc.flipped{transform:rotateY(180deg)}
+.fc-front,.fc-back{position:absolute;inset:0;min-height:230px;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:var(--r);padding:24px 20px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.fc-front{background:var(--bg2);border:1px solid var(--border)}
+.fc-back{background:linear-gradient(135deg,#0f2510,#1a3c1a);border:1px solid rgba(74,222,128,.25);transform:rotateY(180deg)}
+.fc-front h2{font-size:18px;font-weight:700;line-height:1.45;color:var(--white);letter-spacing:-.3px;margin-bottom:14px}
+.fc-tap{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:5px}
+.fc-back p{font-size:16px;line-height:1.65;color:var(--text)}
+.fc-back strong{color:var(--green);font-weight:700}
+.fc-nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin-bottom:10px}
+.navbtn{background:var(--bg2);border:1px solid var(--border);color:var(--muted2);border-radius:10px;padding:12px;font-size:18px;cursor:pointer;font-family:inherit;transition:border-color .15s;width:100%}
+.navbtn:active{border-color:var(--green);color:var(--green)}
+.fc-ctr{text-align:center;font-size:13px;font-weight:600;color:var(--muted2);font-family:'JetBrains Mono',monospace}
+.fc-sel{background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:13px 14px;font-family:'Inter',sans-serif;font-size:14px;border-radius:10px;width:100%;margin-bottom:12px;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236b7c60'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+/* SITUATIONER */
+.sit{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:10px;cursor:pointer}
+.sit-head{display:flex;align-items:center;gap:12px}
+.sit-icon{font-size:26px;flex-shrink:0}
+.sit-title{font-size:15px;font-weight:700;color:var(--white);flex:1}
+.sit-arrow{color:var(--muted);font-size:16px;transition:transform .2s}
+.sit.open .sit-arrow{transform:rotate(90deg);color:var(--green)}
+.sit-body{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.sit.open .sit-body{display:block}
+</style>
+</head>
+<body>
+<header>
+  <span class="logo">FSU</span>
+  <h1>Førstehjælp ABC</h1>
+</header>
+
+<nav class="bnav">
+  <button class="active" onclick="nav('oversigt',this)"><span class="ni">📋</span><span class="nl">Oversigt</span></button>
+  <button onclick="nav('quiz',this)"><span class="ni">⚡</span><span class="nl">Quiz</span></button>
+  <button onclick="nav('flashcards',this)"><span class="ni">🃏</span><span class="nl">Kort</span></button>
+  <button onclick="nav('situationer',this)"><span class="ni">🚨</span><span class="nl">Scenarier</span></button>
+</nav>
+
+<!-- OVERSIGT -->
+<section id="oversigt" class="page active"><div class="wrap">
+  <div class="ptitle">Oversigt</div>
+  <div class="psub">ERC Retningslinjer 2025 · Opdateret Oktober 2025</div>
+
+  <!-- ERC 2025 badge -->
+  <div style="background:linear-gradient(135deg,rgba(74,222,128,.12),rgba(74,222,128,.05));border:1px solid rgba(74,222,128,.3);border-radius:10px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px">
+    <span style="font-size:20px">🆕</span>
+    <div>
+      <div style="font-size:12px;font-weight:800;color:var(--green);letter-spacing:.5px">ERC GUIDELINES 2025</div>
+      <div style="font-size:12px;color:var(--muted2);line-height:1.5">Lanceret 22. okt. 2025 · Gælder fra jan. 2026. Vigtige ændringer fra 2021: ABCDE-tilgang, ny spædbarnsteknik, tourniquet 5–7 cm, åbent brystsår dækkes IKKE.</div>
+    </div>
+  </div>
+
+  <div class="card card-a" style="margin-bottom:12px">
+    <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted2);margin-bottom:10px">Tilgang til bevidstløs person — ny rækkefølge</div>
+    <div style="display:grid;gap:8px">
+      <div style="display:flex;gap:10px;align-items:flex-start"><span style="min-width:24px;height:24px;background:var(--amber);color:#0a0a0a;border-radius:6px;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">1</span><span style="font-size:14px;font-weight:600;color:var(--white)">Skab sikkerhed — tjek for livsfarlig blødning straks (ny prioritet)</span></div>
+      <div style="display:flex;gap:10px;align-items:flex-start"><span style="min-width:24px;height:24px;background:var(--amber);color:#0a0a0a;border-radius:6px;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">2</span><span style="font-size:14px;font-weight:600;color:var(--white)">Ring 1-1-2 straks for alle bevidstløse — behøver ikke vente på vejrtrækningstjek</span></div>
+      <div style="display:flex;gap:10px;align-items:flex-start"><span style="min-width:24px;height:24px;background:var(--amber);color:#0a0a0a;border-radius:6px;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">3</span><span style="font-size:14px;font-weight:600;color:var(--white)">Vurdér med ABCDE (Airway, Breathing, Circulation, Disability, Exposure)</span></div>
+    </div>
+  </div>
+
+  <!-- ABCDE cards -->
+  <div class="card card-g"><div class="abc-row"><div class="abc-L">A</div><div class="abc-body"><h3>Airway · Luftveje</h3><ul><li>Placér på ryggen</li><li>Hageløft: 1 hånd på panden, 2 fingre under hagen</li><li>Hoved forsigtigt bagover til naturlig modstand</li><li>Barn 1–8 år: halvt så langt bagover</li><li>Småbørn 0–1 år: neutral position</li></ul></div></div></div>
+  <div class="card card-g"><div class="abc-row"><div class="abc-L">B</div><div class="abc-body"><h3>Breathing · Åndedræt</h3><ul><li>Se, lyt og føl — maks. 10 sek.</li><li>Normal: 10–20 åndedræt/min, ubesværet</li><li>Agonal/unormal vejrtrækning → START HLR</li><li>Bevidstløs + normal vejrtrækning → stabilt sideleje</li><li>Indpak mod kulde (alutæppe = 80% varme tilbage)</li></ul></div></div></div>
+  <div class="card card-g"><div class="abc-row"><div class="abc-L">C</div><div class="abc-body"><h3>Circulation · Kredsløb</h3><ul><li>Ingen/unormal vejrtrækning → HLR straks</li><li>30 kompressioner + 2 indblæsninger</li><li>Overlevelseskæde (4 led): Alarm → HLR + AED → Avanceret behandling → Rehabilitering</li><li>Overlevelse falder 10% pr. minut uden behandling</li><li>AED inden 3–5 min → 60–75% overlever</li></ul></div></div></div>
+  <div class="card card-g"><div class="abc-row"><div class="abc-L" style="font-size:38px">D+E</div><div class="abc-body"><h3>Disability + Exposure · Ny i 2025</h3><ul><li><strong>D – Disability:</strong> bevidsthedsniveau, pupiller, blodsukker</li><li><strong>E – Exposure:</strong> undersøg hele kroppen for skjulte skader/blødninger</li><li>Tilføjet til ABCDE-tilgangen i ERC 2025</li></ul></div></div></div>
+
+  <div class="divider"></div>
+  <div class="ptitle" style="font-size:18px;margin-bottom:12px">HLR Nøgletal</div>
+  <div class="hlr-hero hlr-r"><div class="hlr-num">30</div><div class="hlr-info"><h3>Brystkompressioner</h3><p>5–6 cm dybde · 100–120/min<br>Håndroden midt på brystkassen · strakte arme<br>Maks. 10 sek. pause til indblæsninger<br><span style="color:var(--green);font-weight:600">Hårde, hurtige tryk — vær ikke bange for at gøre skade</span></p></div></div>
+  <div class="hlr-hero hlr-g"><div class="hlr-num">2</div><div class="hlr-info"><h3>Indblæsninger</h3><p>Ca. 1 sek. · brystkassen skal hæve sig<br>Klem næse · mund mod mund<br>Utrænet? → Giv kun kompressioner (hands-only er bedre end ingenting)</p></div></div>
+  <div class="alert"><strong>VIGTIGT:</strong> HLR fortsættes til redningsmandskab overtager, personen trækker vejret normalt, eller ved udmattelse. Skift hjælper ca. hvert 2. min.</div>
+
+  <div class="divider"></div>
+  <div class="ptitle" style="font-size:18px;margin-bottom:12px">Nøgletal</div>
+  <div class="stat-row">
+    <div class="stat"><span class="sv">30:2</span><span class="sl">HLR voksne</span></div>
+    <div class="stat"><span class="sv">5–6cm</span><span class="sl">trykdybde</span></div>
+    <div class="stat"><span class="sv">10%</span><span class="sl">fald/min u. HLR</span></div>
+    <div class="stat"><span class="sv">60-75%</span><span class="sl">overlever tidlig AED</span></div>
+    <div class="stat"><span class="sv">3–5min</span><span class="sl">AED virker bedst</span></div>
+    <div class="stat"><span class="sv">10sek</span><span class="sl">maks. pause</span></div>
+    <div class="stat"><span class="sv">5–7cm</span><span class="sl">TQ over skade (2025)</span></div>
+    <div class="stat"><span class="sv">37°C</span><span class="sl">normal temp.</span></div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="ptitle" style="font-size:18px;margin-bottom:12px">HLR — Børn vs. voksne (ERC 2025)</div>
+  <div class="tbl-wrap"><table><thead><tr><th>Gruppe</th><th>Teknik</th><th>Dybde</th><th>Indblæsning</th><th>AED</th></tr></thead><tbody>
+    <tr><td>Voksne</td><td>2 hænder</td><td>5–6 cm</td><td>Mund-mund</td><td>✅</td></tr>
+    <tr><td>Børn 1 år–pubertet</td><td>1 hånd</td><td>5 cm (1/3)</td><td>Mund-mund</td><td>✅</td></tr>
+    <tr><td>Spædbørn &lt;1 år</td><td>2 tommelfingertek. ✦</td><td>4 cm (1/3)</td><td>Mund+næse</td><td>✅ (2025)</td></tr>
+  </tbody></table></div>
+  <div style="font-size:12px;color:var(--muted2);margin-bottom:16px;padding:0 4px">✦ <strong style="color:var(--green)">Ny i ERC 2025:</strong> 2-finger-teknikken er afskaffet. Brug to-tommelfinger-omsluttende-hænder-teknik (eller hæl-af-hånd). AED må nu bruges til alle aldre inkl. spædbørn.</div>
+
+  <!-- Key 2025 changes box -->
+  <div class="divider"></div>
+  <div class="ptitle" style="font-size:18px;margin-bottom:12px">⚠️ Vigtige ændringer fra ERC 2025</div>
+
+  <div class="card" style="border-left:3px solid var(--amber)">
+    <div style="font-size:12px;font-weight:800;color:var(--amber);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Blødning — ny prioritet</div>
+    <ul class="steps">
+      <li><span class="snum">1</span><span>Direkte manuelt tryk mod sår — stadig første skridt</span></li>
+      <li><span class="snum">2</span><span><span class="em">Hæmostatisk forbinding</span> anbefales nu aktivt — lægges i såret + fast tryk ovenpå</span></li>
+      <li><span class="snum">3</span><span>Tourniquet ved livstruende ekstremitetsblødning der ikke stoppes: <span class="em">5–7 cm over skaden</span> (ikke 10 cm)</span></li>
+      <li><span class="snum">4</span><span>Skriv tidspunkt på TQ — løsnes ALDRIG af ikke-sundhedspersonale</span></li>
+    </ul>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--red)">
+    <div style="font-size:12px;font-weight:800;color:var(--red);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Åbent brystsår — kritisk ændring</div>
+    <ul class="steps">
+      <li><span class="snum">!</span><span><span class="warn">Dæk IKKE et åbent brystsår med en lufttæt forbinding</span> — risiko for spændingspneumothorax</span></li>
+      <li><span class="snum">✓</span><span>Lad såret kommunikere frit med omgivelserne (åbent)</span></li>
+      <li><span class="snum">✓</span><span>Kun hvis uddannet: brug ventileret/ikke-okklusiv forbinding der tillader luft ud</span></li>
+    </ul>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--green)">
+    <div style="font-size:12px;font-weight:800;color:var(--green);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Drukning — opdateret</div>
+    <ul class="steps">
+      <li><span class="snum">1</span><span>Utrænet: kast flydeanordning — gå <span class="warn">ikke</span> i vandet</span></li>
+      <li><span class="snum">2</span><span>Trænet: gå i vand med flydeanordning hvis sikkert</span></li>
+      <li><span class="snum">3</span><span>På land: 5 indblæsninger → standard HLR 30:2</span></li>
+      <li><span class="snum">4</span><span>Tør brystkassen inden AED-elektroder påsættes</span></li>
+    </ul>
+  </div>
+
+  <div class="divider"></div>
+  <div class="ptitle" style="font-size:18px;margin-bottom:12px">Stabilt sideleje — 5 trin</div>
+  <div class="card"><ul class="steps">
+    <li><span class="snum">1</span><span>Nærmeste arm vinkelret ud, håndflade opad</span></li>
+    <li><span class="snum">2</span><span>Fjerneste arm over bryst — håndryg mod nærmeste kind</span></li>
+    <li><span class="snum">3</span><span>Bøj fjerneste ben i knæ — træk personen mod dig</span></li>
+    <li><span class="snum">4</span><span>Tilpas hofte og knæ til 90° vinkler</span></li>
+    <li><span class="snum">5</span><span>Hoved bagover med hånd under kind — sikr frie luftveje</span></li>
+  </ul></div>
+</div></section>
+
+<!-- QUIZ -->
+<section id="quiz" class="page"><div class="wrap"><div id="qc"></div></div></section>
+
+<!-- FLASHCARDS -->
+<section id="flashcards" class="page"><div class="wrap">
+  <div class="ptitle">Flashcards</div>
+  <div class="psub">Tryk for svar · Swipe til næste</div>
+  <select class="fc-sel" id="fc-cat" onchange="loadFC()">
+    <option value="alle">Alle emner</option>
+    <option value="hlr">HLR & Hjertestop</option>
+    <option value="abc">ABC-metoden</option>
+    <option value="tal">Vigtige tal</option>
+    <option value="sit">Særlige situationer</option>
+    <option value="shock">Shock & Blødninger</option>
+  </select>
+  <div class="fc-area">
+    <div class="fc" id="fc" onclick="flipFC()">
+      <div class="fc-front"><div class="fc-tap">↕ tryk for svar</div><h2 id="fc-q"></h2></div>
+      <div class="fc-back"><p id="fc-a"></p></div>
+    </div>
+  </div>
+  <div class="fc-nav">
+    <button class="navbtn" onclick="prevFC()">←</button>
+    <div class="fc-ctr" id="fc-ctr">1 / 1</div>
+    <button class="navbtn" onclick="nextFC()">→</button>
+  </div>
+</div></section>
+
+<!-- SITUATIONER -->
+<section id="situationer" class="page"><div class="wrap">
+  <div class="ptitle">Scenarier</div>
+  <div class="psub">Tryk for at se handlingsplan trin for trin</div>
+  <div id="sit-list"></div>
+</div></section>
+
+<script>
+function nav(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.bnav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(btn)btn.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+// ── QUIZ ──────────────────────────────────────────
+const Q=[
+  {c:"ABC",q:"Hvad er den korrekte rækkefølge i ABC-metoden?",o:["Åndedræt → Luftveje → Kredsløb","Luftveje → Åndedræt → Kredsløb","Kredsløb → Luftveje → Åndedræt","Bevidsthed → Luftveje → Åndedræt"],a:1,x:"A = Airway (Luftveje) → B = Breathing (Åndedræt) → C = Circulation (Kredsløb). Altid i denne rækkefølge."},
+  {c:"ABC",q:"Du finder en mand der ikke reagerer på tiltale eller rusk. Hvad er han?",o:["Sovende","Bevidsthedspåvirket","Bevidstløs","I shock"],a:2,x:"Reagerer personen hverken på tiltale eller fysisk påvirkning er vedkommende bevidstløs — gå direkte til ABC."},
+  {c:"ABC",q:"Hvad er agonal vejrtrækning — og hvad gør du?",o:["Normal vejrtrækning hos ældre — vent","Langsom, dyb, rallende vejrtrækning — PÅBEGYND HLR","Hurtig vejrtrækning ved angst — berolig personen","Åndedræt ved bevidsthed — stabilt sideleje"],a:1,x:"Agonal vejrtrækning er langsom og dyb med karakteristisk rallende lyd. Optræder hos op mod 40% ved hjertestop. Påbegynd HLR straks."},
+  {c:"ABC",q:"Hvad bruger du til at kontrollere vejrtrækning (B)?",o:["Kun se om brystkassen bevæger sig","Se, lyt og føl — maks. 10 sekunder","Mål pulsen på halsen","Kun lytte med øret mod munden"],a:1,x:"Se (brystkasse bevæger sig?), Lyt (efter vejrtrækning), Føl (udåndingsluft på kind). Maks. 10 sekunder — aldrig mere."},
+  {c:"ABC",q:"En bevidstløs kvinde trækker normalt vejret. Hvad er NÆSTE skridt?",o:["HLR med det samme","Stabilt sideleje + indpak mod kulde","Ring 1-1-2 og vent 5 meter væk","Tjek for blødninger inden du rører hende"],a:1,x:"Bevidstløs med NORMAL vejrtrækning → stabilt sideleje og indpak mod kulde. Kontrollér jævnligt vejrtrækning. Ring 1-1-2."},
+  {c:"ABC",q:"Hageløftet — hvad er formålet og teknikken?",o:["Tjekker bevidsthed — rusk panden","Skaber frie luftveje — 1 hånd på panden, 2 fingre under hagen, hoved bagover","Til at give indblæsninger — mund-til-mund","Stabiliserer nakken — begge hænder om hoved"],a:1,x:"Hageløft løfter tungen fra svælget og åbner luftvejen. 1 hånd på panden, 2 fingre under hagen, hoved forsigtigt bagover til naturlig modstand."},
+  {c:"HLR",q:"Hvad er den korrekte trykdybde ved HLR på en voksen?",o:["3–4 cm","5–6 cm","7–8 cm","Mindst 8 cm"],a:1,x:"5 cm — ikke over 6 cm. For lidt tryk = blod pumpes ikke. For meget = ribbensbrud."},
+  {c:"HLR",q:"Hvad er korrekt trykhastighed ved brystkompressioner?",o:["60–80/min","80–100/min","100–120/min","Over 120/min"],a:2,x:"Mindst 100 — ikke over 120 tryk pr. minut. Under 100 er for langsomt; over 120 giver for overfladiske tryk."},
+  {c:"HLR",q:"HLR-forholdet for voksne?",o:["15:2","20:2","30:2","30:1"],a:2,x:"30 brystkompressioner efterfulgt af 2 indblæsninger. Gentages kontinuerligt."},
+  {c:"HLR",q:"Maks. pause fra kompressioner stoppes til de genoptages?",o:["5 sek.","10 sek.","15 sek.","20 sek."],a:1,x:"Der må maks. gå 10 sekunder fra kompressioner stoppes til 2 indblæsninger er givet og kompressioner genoptages."},
+  {c:"HLR",q:"Du er alene og begynder at blive udmattet under HLR. Hvad er vigtigst at bevare?",o:["Trykhastighed frem for dybde","Trykdybde frem for trykhastighed","Pause hvert 5. minut","Kun give indblæsninger"],a:1,x:"Trykdybde er vigtigere end trykhastighed, når udmattelse sætter ind. Skift hjælper ca. hvert 2. minut hvis muligt."},
+  {c:"HLR",q:"Hvornår stopper du HLR?",o:["Kun når ambulancen ankommer","Når redningsmandskab overtager, personen trækker vejret normalt, eller ved udmattelse","Efter præcis 10 minutter","Aldrig — fortsættes til hospitalet"],a:1,x:"HLR fortsættes til: 1) Redningsmandskabet overtager, 2) Personen trækker vejret normalt, 3) Udmattelse hos dig."},
+  {c:"HLR",q:"Det er ikke muligt at give indblæsninger pga. ansigtsskader. Hvad gør du?",o:["Stop HLR","Fortsæt brystkompressioner UDEN ophør","Giv kun 1 indblæsning","Vent på ambulance"],a:1,x:"Er kunstigt åndedræt umuligt (ansigtsskader, ætsning, forgiftning) fortsættes med brystkompressioner uden ophør."},
+  {c:"HLR",q:"Hvad placerer du på brystkassen ved kompressioner — og præcist hvor?",o:["Fingerspidserne overalt","Håndroden med flettet greb MIDT på brystkassen","Hele hånden øverst på brystbenet","Knyttet hånd under brystbenet"],a:1,x:"Håndroden placeres MIDT på brystkassen. Den anden hånd oven på med flettede, løftede fingre. Strakte arme, tryk lodret ned."},
+  {c:"HLR",q:"Ca. hvor mange danskere får hjertestop uden for hospital hvert år?",o:["500","3.500","10.000","25.000"],a:1,x:"Ca. 3.500 danskere årligt. I dag overlever kun 13%. Tidlig HLR + AED kan løfte det til 60–75%."},
+  {c:"BØRN",q:"Trykdybde ved HLR på et barn på 5 år?",o:["3 cm","4 cm","5 cm (1/3 af brystkassens tykkelse)","7 cm"],a:2,x:"Større børn (1–8 år): 5 cm svarende til 1/3 af brystkassens tykkelse. Trykhastighed: 100–120/min som voksne."},
+  {c:"BØRN",q:"Trykdybde ved HLR på et spædbarn (0–1 år)?",o:["2 cm","4 cm (1/3 af brystkassens tykkelse)","6 cm","Samme som voksne"],a:1,x:"Spædbørn (0–1 år): 4 cm svarende til 1/3 af brystkassens tykkelse. ERC 2025: to-tommelfinger-omsluttende-hænder-teknik (eller hæl-af-hånd) — 2-finger-teknikken er afskaffet."},
+  {c:"BØRN",q:"Indblæsningsteknik til et spædbarn?",o:["Mund-til-mund som voksne","Mund til næse OG mund med svag indblæsning","Mund-til-næse kun","Ingen indblæsninger — kun kompressioner"],a:1,x:"0–1 år: mund over barnets mund OG næse. Svag indblæsning tilpasset barnets størrelse."},
+  {c:"BØRN",q:"Hvad er den AFGØRENDE ændring i ERC 2025 vedr. HLR på spædbørn?",o:["Trykdybden er øget til 6 cm","To-finger-teknikken er afskaffet — brug to-tommelfinger-omsluttende-hænder-teknik","HLR-forholdet er ændret til 15:2","AED må aldrig bruges til spædbørn"],a:1,x:"ERC 2025 afskaffede to-finger-teknikken pga. utilstrækkelig trykdybde. Brug to-tommelfinger-omsluttende-hænder-teknik (eller hæl-af-hånd). AED må nu bruges til ALLE aldre incl. spædbørn."},
+  {c:"BØRN",q:"Hvad er HLR-forholdet for børn ved HLR ved iltmangel (hypoxi)?",o:["30:2","15:2","5:1","10:2"],a:1,x:"HLR ved iltmangel (hypoxi) til børn: 15:2. Til voksne: 30:2."},
+  {c:"BØRN",q:"AED og spædbørn — hvad gælder ifølge ERC 2025?",o:["MÅ IKKE bruges til børn under 1 år","AED må bruges til ALLE aldre inkl. spædbørn — brug pæd. elektroder hvis tilgængeligt","Kun til børn over 8 år","Kun til børn med shockbar rytme — og det kan kun læger vurdere"],a:1,x:"ERC 2025 ændrede dette: AED må nu bruges til ALLE aldre inkl. spædbørn. De fleste spædbørn er ikke i shockbar rytme og får ikke stød — men det er sikkert at bruge AED. Brug pædiatriske elektroder hvis tilgængeligt."},
+  {c:"ILTMANGEL",q:"En person trukket op fra vandet — bevidstløs, ingen vejrtrækning. Hvad er det FØRSTE?",o:["30 brystkompressioner","Ring 1-1-2","5 indblæsninger","Stabilt sideleje"],a:2,x:"HLR ved iltmangel (hypoxi) indledes med 5 indblæsninger. Derefter HLR (15/2 børn / 30/2 voksne) i 1 min. inden 1-1-2."},
+  {c:"ILTMANGEL",q:"Hvad er et synligt tegn på iltmangel ud over fraværende vejrtrækning?",o:["Rød, varm hud","Blåfarvet hud (cyanose) om næse, mund og ører","Gul hud","Bleg tør hud"],a:1,x:"Cyanose (blåfarvning) om næse, mund og ører er klassisk tegn på iltmangel — typisk ved drukning, kvælning osv."},
+  {c:"AED",q:"Hvem må bruge en AED?",o:["Kun læger","Kun uddannet personale","Alle — lægfolk fik lov i 2003","Kun over 18 år"],a:2,x:"Sundhedsstyrelsen godkendte i 2003 at lægfolk (alle) må bruge hjertestarter. AED er designet til at vejlede brugeren igennem via stemmeinstruktion."},
+  {c:"AED",q:"AED bruges inden for 3–5 minutter. Overlevelseschance?",o:["10–20%","30–40%","60–75%","Over 90%"],a:2,x:"Stød inden for 3–5 min. giver 60–75% overlevelse. Chancen falder ellers med 10% pr. minut."},
+  {c:"AED",q:"AED-elektroden skal placeres mindst hvor langt fra en pacemaker?",o:["2 cm","5 cm","10 cm","20 cm"],a:2,x:"Mindst 10 cm fra indopereret pacemaker, der typisk sidder under kravebenet i venstre side."},
+  {c:"AED",q:"Hvad er ventrikelflimmer (VF)?",o:["Normal hjerterytme under stress","En elektrisk forstyrrelse i hjertet — hyppigste årsag til hjertestop","Meget langsom puls","En type brystsmerter"],a:1,x:"VF er en elektrisk forstyrrelse i hjertet. Den eneste effektive behandling er defibrillering med AED."},
+  {c:"AED",q:"Person med plaster på brystkassen. Hvad gøres FØR AED-elektroder sættes på?",o:["Intet — AED virker alligevel","Fjern plaster og smykker","Sæt elektroder oven på plasteret","Ring til AED-producenten"],a:1,x:"Plaster, forbindinger og smykker SKAL fjernes — de kan forårsage gnister og forbrændinger samt nedsætte kontakten."},
+  {c:"AED",q:"Overlevelseskædens 4 led i korrekt rækkefølge?",o:["HLR → Alarm → AED → Efterbeh.","Alarm → HLR → AED → Avanceret efterbehandling","AED → HLR → Alarm → Efterbeh.","Alarm → AED → HLR → Efterbeh."],a:1,x:"1) Tidlig erkendelse + hurtig alarm. 2) Tidlig HLR. 3) Tidlig AED (defibrillering). 4) Avanceret efterbehandling på hospital."},
+  {c:"SIKKERHED",q:"Hvornår nødflytter du en tilskadekommen?",o:["Altid — sikrere at flytte","Kun hvis der er umiddelbar fare for personen eller dig selv","Aldrig — vent på ambulance","Kun ved trafikulykker"],a:1,x:"Hjælp normalt på findestedet. Nødflyt KUN ved umiddelbar fare for liv (brand, trafikfare osv.). Princip: liv frem for førlighed."},
+  {c:"SIKKERHED",q:"Færdselsulykke: FØRSTE ting du gør inden du hjælper tilskadekomne?",o:["Tjek tilskadekomne med det samme","Stands motor, tænd havariblink, tag trafikvest på, advarselstrekant min. 50 m","Ring 1-1-2 og vent i bilen","Flyt alle ud af bilerne"],a:1,x:"Stands motor, tænd havariblink, tag trafikvest på, sæt advarselstrekant mindst 50 m fra køretøjet (motorvej: 100 m)."},
+  {c:"SIKKERHED",q:"Korrekt løfteteknik ved nødflytning?",o:["Bøj ryggen og løft hurtigt","God balance, løft med benmusklerne, naturligt lændesvaj, hold personen tæt","Drej ryggen mens du løfter","Løft med strakte ben og bøjet ryg"],a:1,x:"God balance, naturligt lændesvaj, hold tæt til kroppen, løft med benmusklerne, spænd maven, ALDRIG drej ryggen mens du løfter."},
+  {c:"SHOCK",q:"En tilskadekommen er bleg, koldtsvedende, har hurtig vejrtrækning og er svimmel. Hvad er det?",o:["Normal reaktion ved fald","Shocksymptomer","Hjernerystelse","Forhøjet blodtryk"],a:1,x:"Bleg koldtsvedende hud, hurtig vejrtrækning, svimmel og omtåget er klassiske shocksymptomer. Hjertet forsøger at kompensere ved at slå hurtigere."},
+  {c:"SHOCK",q:"Hvad gør du ved shock (bleg, omtåget person)?",o:["Giv noget at drikke","Læg ned, hæv blødende sted, stop blødninger, indpak, ring 1-1-2","Lad sidde oprejst","Giv halvt glas sukkerholdig drik"],a:1,x:"Læg ned (undtagen hjertesvigt), hæv blødende sted, stop udvendige blødninger, indpak mod kulde, ring 1-1-2."},
+  {c:"SHOCK",q:"Hvornår MÅ en shockperson IKKE lægges ned?",o:["Aldrig — læg altid ned","Bevidst person med nedsat hjertefunktion (hjertesvigt)","Kun ved rygsøjleskader","Altid ved forbrænding"],a:1,x:"Bevidst person med nedsat hjertefunktion MÅ IKKE lægges ned — sættes siddende eller i aflastende rygleje."},
+  {c:"SHOCK",q:"En dreng bløder kraftigt fra benet. Første skridt?",o:["Tourniquet straks","Pres direkte mod det blødende sted med en hånd","Ring 1-1-2 og vent","Løft benet og vent"],a:1,x:"Første skridt: direkte tryk mod det blødende sted. Derefter: Læg ned, løft benet, anlæg forbinding. TQ kun hvis forbinding ikke virker."},
+  {c:"SHOCK",q:"Forbinding er gennemblødt med blod. Hvad gør du?",o:["Fjern og skift til ny","Læg ny forbinding OVEN PÅ og øg trykket","Lad det være","Ring 1-1-2 og gør intet mere"],a:1,x:"Fjern ALDRIG en gennemblødt forbinding — øger blødningen. Læg ny oven på og øg trykket, evt. med trykforbinding."},
+  {c:"SHOCK",q:"Tourniquet er anlagt. Hvad gøres med det?",o:["Løsnes efter 5 min.","Løsnes ALDRIG — skriv tidspunkt på tilskadekomnes PANDE","Fjernes når blødning stopper","Løsnes hvert 15. min."],a:1,x:"TQ må ALDRIG løsnes. Skriv tidspunkt på panden. Personen skal hurtigt til akutmodtagelse."},
+  {c:"SHOCK",q:"Tourniquet placeres:",o:["Direkte på såret","5 cm over såret","5–7 cm over såret — aldrig på et led","15 cm over såret"],a:2,x:"ERC 2025: 5–7 cm over det skadede sted, aldrig på et led. Fortsat blødning? Læg endnu et TQ tættere mod hjertet."},
+  {c:"SHOCK",q:"Hvad er de 4 årsager til shock?",o:["Feber, infektion, dehydrering, forgiftning","Stort blodtab, forbrænding, karudvidelse, nedsat hjertefunktion","Hjertestop, knoglebrud, forbrænding, drukning","Overophedning, nedkøling, allergi, forgiftning"],a:1,x:"Shock kan skyldes: 1) Stort blodtab, 2) Forbrænding (væsketab), 3) Karudvidelse (allergi/bakterier/slag mod hoved), 4) Nedsat hjertefunktion."},
+  {c:"SHOCK",q:"Hvad er en trykforbinding?",o:["Steril forbinding med antiseptisk middel","Flad genstand over såret med ekstra forbinding rundt om for maksimalt tryk","Elastisk bandage stramt om lemmet","Plastiklag med klæbemiddel"],a:1,x:"Flad genstand der passer til sårets størrelse. Placér over såret med ekstra gaze/forbinding om for at opnå maksimalt tryk på blødningen."},
+  {c:"KVÆLNING",q:"Mand ved middagsbordet griber sig til halsen, kan ikke tale, er panisk og blåfarvet. Hvad gør du?",o:["Giv ham noget at drikke","5 rygslag → 5 Heimlich-tryk — bevidstløs → HLR + ring 1-1-2","Opfordre ham til at hoste","Ring 1-1-2 og vent"],a:1,x:"Total blokering: overkrop foroverbøjet, 5 rygslag mod skulderbladene. Ingen virkning → 5 Heimlich-tryk. Bevidstløs → HLR 30/2. Ring 1-1-2."},
+  {c:"KVÆLNING",q:"Hvad er Heimlich-metoden?",o:["5 slag i ansigtet","Grib om personen bagfra, knyttet hånd ml. navle og brystben, op til 5 tryk indad og opad","Brystkompressioner som HLR","Mund-til-mund kunstigt åndedræt"],a:1,x:"Bagfra. Knyttet hånd (tommelfinger indad) ml. navle og brystbenet. Grib med anden hånd. 5 hårde tryk indad og opad mod mellemgulvet."},
+  {c:"KVÆLNING",q:"Barn på 7 måneder har fået noget galt i halsen — kan ikke trække vejret. Hvad gør du?",o:["Heimlich som hos voksne","Maven ned ad underarmen, hoved nedad, 5 slag. Vend: 5 brysttryk. Gentag.","Kun rygslag — aldrig brysttryk","Ring 1-1-2 og vent"],a:1,x:"Under 1 år: maven ned ad underarmen, hoved nedad. Op til 5 rygslag. Vend: 5 brysttryk. Gentag serier. Bevidstløs → HLR. Ring 1-1-2."},
+  {c:"KVÆLNING",q:"Person hoster kraftigt og er ved bevidsthed (delvis blokering). Hvad gør du?",o:["Heimlich straks","Opfordre til at hoste, bliv hos personen, observer","Ring 1-1-2 straks","5 rygslag med det samme"],a:1,x:"Delvis blokering: personen kan stadig trække vejret. Opfordre til at hoste. Giv psykisk førstehjælp. Observer om tilstanden forværres."},
+  {c:"DRUKNE",q:"Du ser en person drukne. Hvad er det FØRSTE du gør?",o:["Spring i vandet med det samme","Ring 1-1-2 FØRST — bjærg kun hvis sikkert for dig","Kast dig ned på stranden","Råb og løb"],a:1,x:"Ring 1-1-2 FØRST. Bjærg kun hvis du kan gøre det sikkert. Hav visuel kontakt. Tænk altid på din egen sikkerhed."},
+  {c:"DRUKNE",q:"Den druknede er bjærget op. Hvornår starter kunstigt åndedræt?",o:["Kun i ambulance","Så snart du kan bunde / personen er i båden / på land","Venter til personen er varmet op","Aldrig — kun kompressioner"],a:1,x:"Kunstigt åndedræt påbegyndes så snart du kan bunde eller er i båd/på land. Åndedrætscentret er lammet af iltmangel."},
+  {c:"EL",q:"Person har fået stød fra el-apparat (230V). Hvad er det FØRSTE?",o:["Træk ham væk med det samme","Afbryd strømmen — rør ALDRIG tilskadekomne inden da","Ring 1-1-2 og hop over ham","Giv ham vand"],a:1,x:"Rør ALDRIG tilskadekomne ved el-ulykke inden strøm er afbrudt — du risikerer selv stød. Afbryd strøm."},
+  {c:"EL",q:"Nedstyrtede højspændingsledninger. Hvad gælder?",o:["Hold 5 m afstand","Hold 10 m afstand","Hold MINDST 20 m afstand — ring 1-1-2","Du kan gå forbi med 1 m afstand"],a:2,x:"Hold mindst 20 meters afstand til nedstyrtede højspændingsledninger. Forsøg aldrig at fjerne dem."},
+  {c:"EL",q:"El-forbrændinger ser beskedne ud udvendigt. Hvad er vigtigt?",o:["El-forbrændinger er altid overfladiske","Indre skader kan være langt mere alvorlige end de ydre ser ud","De er aldrig farlige","Behandles ikke med vand"],a:1,x:"Elektrisk strøm genererer varme og giver varme-skader. Ydre skader kan virke lille, men indre skader på blod- og nervebaner kan være alvorlige."},
+  {c:"SILO",q:"En kollega er faldet ned i en brønd. Hvad gør du?",o:["Hop ned og hjælp","Kravl halvvejs ned med reb","Ring 1-1-2, vift luft ned med jakke — GÅ ALDRIG NED","Kast et reb ned og vent"],a:2,x:"GÅ ALDRIG ned i silo/brønd — iltfattig luft og giftige gasser lammet bevidstheden på sekunder. Ring 1-1-2, vift luft ned, vent på specialudstyr."},
+  {c:"BRYST",q:"Mand med en kniv siddende i brystsåret. Hvad er AFGØRENDE ifølge ERC 2025?",o:["Fjern kniven straks og dæk såret lufttæt","Lad kniven sidde — støt med 'doughnut'. Lad åbne brystsår kommunikere frit — DÆK DEM IKKE lufttæt","Træk kniven halvvejs ud","Dæk alt inkl. kniv med lufttæt tape"],a:1,x:"ERC 2025: Åbne brystsår må IKKE dækkes med lufttæt forbinding — risiko for spændingspneumothorax (livstruende). Lad såret kommunikere frit. Fremmedlegeme fjernes ikke — støt med 'doughnut'."},
+  {c:"🆕 ERC 2025",q:"Hvad er den vigtigste nye ændring i ERC 2025 vedr. at tilkalde hjælp?",o:["Man skal nu vente på at tjekke vejrtrækning FØR man ringer","Ring 1-1-2 straks for alle bevidstløse — behøver IKKE bekræfte unormal vejrtrækning FØR opkaldet","Man skal ikke ringe før HLR er startet","Kun ring 1-1-2 ved hjertestop"],a:1,x:"ERC 2025: Ring 1-1-2 straks for alle bevidstløse. Det er for svært at vurdere unormal vejrtrækning korrekt — ring STRAKS, og opkaldsbehandleren hjælper med at identificere hjertestop."},
+  {c:"🆕 ERC 2025",q:"Hvad er ABCDE i ERC 2025-tilgangen?",o:["Alarm, Blødning, Cyanose, Defibrillering, Evakuering","Airway, Breathing, Circulation, Disability, Exposure","Åndedræt, Blodcirkulation, Cyanose, Defibrillering, Eksponering","Alarm, Brystkompressioner, Cirkulation, Drukning, El"],a:1,x:"ERC 2025 bruger ABCDE: A=Airway (luftveje), B=Breathing (åndedræt), C=Circulation (kredsløb), D=Disability (bevidsthedsniveau/neurologisk), E=Exposure (undersøg hele kroppen for skjulte skader)."},
+  {c:"🆕 ERC 2025",q:"Hvad anbefaler ERC 2025 som supplement til direkte tryk ved livstruende blødning?",o:["Isterningpose på såret","Hæmostatisk forbinding (blodhæmmende gaze) lagt direkte i såret","Elastisk bandage stramt om lemmet","Alkohol på såret"],a:1,x:"ERC 2025 anbefaler aktivt hæmostatiske forbindinger (fx QuikClot). Lægges direkte i såret + fast tryk ovenpå. Evidens viser kortere blødningstid og bedre overlevelse vs. normal gaze."},
+  {c:"🆕 ERC 2025",q:"ERC 2025: Hvad er korrekt tourniquet-placering?",o:["10 cm over skaden","Direkte på skaden","5–7 cm over skaden — aldrig på et led","20 cm over skaden"],a:2,x:"ERC 2025 præciserer: 5–7 cm over skaden, aldrig på et led. Tidligere stod der 10 cm i mange lærebøger — dette er nu opdateret."},
+  {c:"JORD",q:"Person er begravet til halsen i jordskred. Første prioritet?",o:["Grave hele personen fri","Grave HOVEDET fri og starte kunstigt åndedræt","Ring 1-1-2 og vent","Trykke jord væk fra ryggen"],a:1,x:"Start med at grave HOVEDET fri og påbegynd kunstigt åndedræt så snart muligt. Ring 1-1-2 og meld 'jord-/sneskred'."},
+  {c:"1-1-2",q:"Hvad SKAL du oplyse når du ringer 1-1-2?",o:["Dit navn og CPR-nummer","STED (landsdel/kommune/vej), HVAD der skete, HVEM der er skadet","Kun antal tilskadekomne","Diagnose og behandling du har givet"],a:1,x:"De tre: 1) HVOR er ulykken, 2) HVAD er sket og skadens omfang, 3) HVEM er skadet. Lad alarmcentralen afslutte samtalen."},
+  {c:"1-1-2",q:"Du ringer 1-1-2 og der er ca. 15 sekunders ventetid ('slusen'). Hvad gør du?",o:["Læg på og prøv igen","Bliv i røret — systemet frasorterer fejlopkald","Prøv SMS","Skriv adresse ned og prøv igen"],a:1,x:"Bliv i røret. 'Slusen' er designet til at frasortere fejlopkald — ventetid ca. 15 sekunder."},
+  {c:"1-1-2",q:"Hvad kan visitatoren hos 1-1-2 hjælpe med?",o:["Kun sende ambulance","Vurdere skadens omfang og vejlede i HLR trin for trin","Kun politiopgaver","Kun ved hjertestop"],a:1,x:"Visitatoren (sygeplejerske, læge eller ambulanceredder) vurderer skadens omfang og kan guide dig trin for trin i HLR."},
+  {c:"1-1-2",q:"Du er på strand og ser en drukning. Hvad er nyttigt at oplyse til 1-1-2?",o:["Kun din adresse","Nummeret fra det grønne redningsskilt på stranden","Farven på offerts tøj","Strandnavnet"],a:1,x:"Grønne redningsskilte med unikke numre er på ca. 3.000 steder langs Danmarks kyster. Det fortæller alarmcentralen præcist din position."},
+  {c:"MENS DU VENTER",q:"Hvad revurderer du mens du venter på ambulancen?",o:["Om du ringede til rigtigt nummer","Frie luftveje (A), vejrtrækning (B), kredsløb (C), om forbindinger er gennemblødt","Tilskadekomnes navn og alder","Om der er vidner"],a:1,x:"Revurdér A (luftveje), B (vejrtrækning), C (kredsløb), og om forbindinger er gennemblødt. Oprethold normal legemstemperatur (37°C)."},
+  {c:"MENS DU VENTER",q:"Hvad fortæller du redningsmandskabet ved overlevering?",o:["Din medicinske diagnose","Kort og præcist: hvad der er sket og hvad du har gjort","Din baggrund som førstehjælper","Kun hvad personen hedder"],a:1,x:"Fortæl: 1) Hvad er sket, 2) Hvad er gjort. Hurtigt og præcist — ingen misforståelser."},
+  {c:"MENS DU VENTER",q:"Hvad gør kulde ved en tilskadekommen der bløder?",o:["Kulde stopper blødning","Kulde forværrer blødning — hold normal temperatur (37°C)","Kulde er neutral","Kulde hjælper heling"],a:1,x:"Kulderystelser koster ilt og energi. En tilskadekommen der bløder, bløder MERE ved lavere temperatur. Blod størkner bedst ved 37°C."},
+  {c:"PSYKISK",q:"Hvad er psykisk førstehjælp — og hvem kan give det?",o:["Kun for professionelle","Hjælp og følelsesmæssig støtte alle kan give en person i krise — HELE forløbet","Medicinsk behandling mod angst","Kun relevant hvis personen er bevidstløs"],a:1,x:"Psykisk førstehjælp er den hjælp og støtte vi alle kan give. Vigtigt HELE forløbet — også mens du giver fysisk førstehjælp."},
+  {c:"PSYKISK",q:"Hvad bør du UNDLADE som psykisk førstehjælper?",o:["Lytte aktivt","Holde i hånden","Stille diagnose, dominere med egne følelser, give tomme fraser","Fortælle hvad du gør step-for-step"],a:2,x:"Undlad: stille diagnose, dominere med egne følelser, trøste (ynke), tomme fraser og bebrejdelser, urealistiske løfter, virke omklamrende."},
+  {c:"RICE",q:"Hvad er RICE-princippet?",o:["Rens, Isol, Cooling, Elevér","Rest, Ice, Compression, Elevation — bruges ved forstuvninger og muskelskader","Ring, Inspektion, Cooling, Elevér","Rengøring, Indpakning, Cooling, Elevér"],a:1,x:"RICE: Rest (hvile), Ice (is/kulde), Compression (kompression), Elevation (løft over hjerteniveau). Bruges ved forstuvninger og muskelskader."},
+  {c:"TEMPERATUR",q:"Hvad er de tre grader af forbrænding?",o:["Let, middel, alvorlig","1°: rød hud. 2°: blærer. 3°: dyb hudskade alle lag ødelagt","Overflade, dybde, total","Rød, hvid, sort"],a:1,x:"1. grads: rød hud. 2. grads: blærer. 3. grads: dyb forbrænding med skade på alle hudlag og evt. underliggende væv."},
+  {c:"KULILTE",q:"Hvorfor er kulilteforgiftning særligt farlig?",o:["Stærk lugt advarer dig","Farveløs og lugtfri — forgiftning sker uden advarsel","Virker kun på børn","Tager dage at blive påvirket"],a:1,x:"Kulilte er farveløs og lugtfri. Man mærker ingenting og kan miste bevidstheden pludseligt. Typisk i garager med kørende bil eller brand i lukket rum."},
+  {c:"STABILSIDELEJE",q:"Hvad er formålet med stabilt sideleje?",o:["Forebygge knoglebrud","Sikre frie luftveje — forhindre at tunge, blod eller opkast blokerer","Holde blodtrykket oppe","Forebygge hypotermi"],a:1,x:"Stabilt sideleje sikrer frie luftveje ved at tungen, blod og opkast ikke kan blokere dem. Bevidstløse med normal vejrtrækning lægges altid her."},
+  {c:"STABILSIDELEJE",q:"Trin 1 i det stabile sideleje?",o:["Bøj fjerneste ben","Læg nærmeste arm vinkelret ud, håndflade opad","Før fjerneste arm over brystet","Rul personen over på siden"],a:1,x:"Trin 1: nærmeste arm vinkelret ud, håndflade opad. Trin 2: fjerneste arm over bryst, håndryg mod kind. Trin 3: bøj og rul. Trin 4: 90°. Trin 5: hoved bagover."},
+  {c:"HLR",q:"Hvad er den VIGTIGSTE enkeltfaktor for at løfte overlevelse fra 13% til 60-75%?",o:["Hurtig transport til hospital","Tidlig HLR kombineret med tidlig AED","Kendskab til personens medicinliste","Antal fremmødte hjælpere"],a:1,x:"Kombinationen af kvalitets-HLR og tidlig AED er det der gør den store forskel. Det er grunden til at alle bør kende det."},
+  {c:"ABC",q:"Ilt i indåndet luft — og optaget i blodet?",o:["100% ilt, alt optages","21% ilt, ca. 4% optages","50% ilt, 10% optages","10% ilt, 5% optages"],a:1,x:"Indåndingsluften indeholder ca. 21% ilt. Kun ca. 4% optages i blodet. Det er nok til at holde liv under HLR."},
+  {c:"FORGIFTNING",q:"Hvad hedder den danske rådgivningslinje for forgiftninger?",o:["SundhedsDanmark","GiftLinjen","AkutLinjen","GiftRådgivning"],a:1,x:"GiftLinjen er den danske speciallinje for forgiftningsrådgivning — kan fx findes i Akuthjælp APP'en."},
+
+  // ── SCENARIE: TRAFIKULYKKE ──────────────────────────────────────────────
+  {c:"🚗 TRAFIKULYKKE",q:"Du kører forbi en trafikulykke. En bil er kørt ind i et træ, motoren kører. Hvad gør du ALLERFØRST?",o:["Tjek om folk er kommet til skade","Stands motoren, tænd havariblink, tag trafikvest på, sæt advarselstrekant op","Ring 1-1-2 og vent i din bil","Flyt de tilskadekomne ud af bilen"],a:1,x:"Sikr stedet FØR du hjælper: stands motor, tænd havariblink, tag trafikvest på, sæt advarselstrekant min. 50 m fra bilen (motorvej: 100 m)."},
+  {c:"🚗 TRAFIKULYKKE",q:"En mand sidder fastspændt i en bil der er kørt galt. Han er bevidstløs, men trækker vejret normalt. Hvad gør du?",o:["Nødflyt ham ud af bilen straks","Lad ham sidde i bilen, skab frie luftveje med hageløft, ring 1-1-2","Giv HLR gennem bilvinduet","Vent på ambulancen uden at røre ham"],a:1,x:"Hjælp normalt på findestedet. Skab frie luftveje med hageløft. Ring 1-1-2. Nødflyt KUN hvis der er fare (brand, synkende bil osv.)."},
+  {c:"🚗 TRAFIKULYKKE",q:"Du nødflytter en bevidstløs person ud af en bil. Hvad er vigtigt ift. teknik?",o:["Træk ham ud ved benene","Brug underarmsgreb — arme ind under armhuler, fat om ét underarm, løft med benmusklerne","Løft ham ved at gribe om jakken","Drag ham ud ved at trække i hovedet"],a:1,x:"Underarmsgreb: placér dig bagved, arme ind under armhuler bagfra, fat med begge hænder om ét underarm. Løft med benmusklerne, naturligt lændesvaj, hold tæt til kroppen."},
+  {c:"🚗 TRAFIKULYKKE",q:"Der er en tilskadekommen i bilen med uudløste airbags. Hvad skal du huske?",o:["Airbags er ligegyldige nu — ulykken er sket","Pas på uudløste airbags — hold dig væk fra airbag-zoner","Aktiver airbags manuelt for at sikre dem","Skær altid airbags væk inden nødflytning"],a:1,x:"Pas på uudløste airbags — de kan udløse efterfølgende og skade både tilskadekommen og dig. Hold dig væk fra airbag-zoner."},
+  {c:"🚗 TRAFIKULYKKE",q:"En cyklist er ramt af en bil. Han ligger på vejen, er bevidst, klager over smerter i nakken og kan ikke mærke sine ben. Hvad gør du?",o:["Hjælp ham op i siddende stilling","Flyt ham til fortorvet for sikkerhed","Ring 1-1-2 STRAKS — rør ham ikke unødigt, hold hoved/nakke i ro","Giv HLR forebyggende"],a:2,x:"Mistanke om nakkebrud/rygmarvsskade: Ring 1-1-2 straks. Rør ham ikke unødigt. Stabilisér hoved og nakke i den stilling du finder ham i. Flyt KUN ved livstruende fare."},
+  {c:"🚗 TRAFIKULYKKE",q:"Din makker har fået en motorsav i benet ved en arbejdsulykke. Der er kraftig blødning. Tourniquet er pålagt. Hvad SKAL du huske?",o:["Løsne TQ hvert 10. minut for blodgennemstrømning","Fjerne TQ når blødningen er stoppet","Notere tidspunktet og skrive det på hans PANDE — TQ løsnes ALDRIG","Dække TQ med forbinding så det ikke ses"],a:2,x:"TQ må ALDRIG løsnes. Notér tidspunkt og skriv det på den tilskadekomnes pande, så hospitalet ved hvornår det er lagt. Hurtigt til akutmodtagelse."},
+
+  // ── SCENARIE: CYKELULYKKE / BEVIDSTLØS ─────────────────────────────────
+  {c:"🚲 BEVIDSTLØS",q:"Du cykler forbi en mand der ligger på fortovet. Han svarer ikke og reagerer ikke på rusk. Du ser brystkassen hæve sig lidt — langsomt og rallende. Hvad gør du?",o:["Stabilt sideleje — han trækker vejret","Ring 1-1-2 og vent ved siden af ham","Start HLR straks — agonal vejrtrækning tæller som 'ingen normal vejrtrækning'","Giv 5 indblæsninger og se hvad der sker"],a:2,x:"Agonal (rallende, langsom) vejrtrækning er IKKE normal vejrtrækning. Det er tegn på hjertestop. Start HLR straks. Ring 1-1-2."},
+  {c:"🚲 BEVIDSTLØS",q:"En kvinde er faldet af cyklen og er bevidstløs. Du har skabt frie luftveje og konstateret NORMAL vejrtrækning. Hvad er næste skridt?",o:["Start HLR","Læg hende i stabilt sideleje og ring 1-1-2","Giv 2 indblæsninger forebyggende","Vent og se om hun vågner af sig selv"],a:1,x:"Bevidstløs + normal vejrtrækning = stabilt sideleje + indpak mod kulde. Ring 1-1-2. Kontrollér vejrtrækning jævnligt."},
+  {c:"🚲 BEVIDSTLØS",q:"Du har lagt en bevidstløs mand i stabilt sideleje. Hvad kontrollerer du løbende mens du venter på ambulancen?",o:["Om han har pung og ID på sig","Vejrtrækning jævnligt — og om luftveje, kredsløb og forbindinger er OK","Hans puls hvert 30. sekund","Om hans hud er bleg eller rød"],a:1,x:"Revurdér jævnligt: A (luftveje frie?), B (normal vejrtrækning?), C (kredsløb?), og om forbindinger er gennemblødt. Hold normal kropstemperatur."},
+  {c:"🚲 BEVIDSTLØS",q:"En dreng på 7 år er faldet fra sin cykel og er bevidstløs uden vejrtrækning. Du starter HLR. Hvad er korrekt trykdybde?",o:["5–6 cm som voksne","5 cm (1/3 af brystkassens tykkelse)","4 cm","3 cm"],a:1,x:"Større børn (1–8 år): 5 cm svarende til 1/3 af brystkassens tykkelse. Trykhastighed 100–120/min som voksne."},
+  {c:"🚲 BEVIDSTLØS",q:"Du er alene og giver HLR til en voksen mand. Der er ingen andre i nærheden. Hvornår ringer du 1-1-2?",o:["Aldrig — fortsæt HLR til du er udmattet","Ring straks inden HLR — brug højttalerfunktionen og fortsæt HLR","Vent til han vågner","Ring efter 10 minutters HLR"],a:1,x:"Ring 1-1-2 straks — brug højttalerfunktionen på telefonen, så du kan give HLR mens du taler med visitatoren. Visitatoren kan vejlede dig."},
+
+  // ── SCENARIE: HLR ────────────────────────────────────────────────────────
+  {c:"💓 HLR-SCENARIE",q:"Din 55-årige nabo falder pludseligt om i haven, er bevidstløs og trækker ikke vejret. Der er en AED 200 meter væk. Hvad er den rigtige rækkefølge?",o:["Hent AED FØRST — det er det vigtigste","Start HLR STRAKS, send nogen efter AED mens du giver HLR, ring 1-1-2","Vent på at nogen kommer forbi","Ring 1-1-2 og vent på ambulancen inden du starter HLR"],a:1,x:"Start HLR STRAKS — send en anden person af sted efter AED mens du giver HLR. Ring 1-1-2. Hvert minut uden HLR = 10% lavere chance for overlevelse."},
+  {c:"💓 HLR-SCENARIE",q:"Du giver HLR til en mand. Din makker ankommer med en AED. Hvad gør du?",o:["Stop HLR, pak AED ud alene","Fortsæt HLR mens makker tænder AED og sætter elektroder på — pauser KUN for analyse og stød","Vent til AED er klar, stop HLR","Lad makker tage over på HLR, du betjener AED"],a:1,x:"Fortsæt HLR mens AED forberedes. Pause KUN når AED analyserer og afgiver stød. Minimal pause = maksimal chance."},
+  {c:"💓 HLR-SCENARIE",q:"AED'en siger: 'Stød anbefales.' Hvad gør du?",o:["Fortsæt HLR mens stød gives","Sørg for at ingen rører personen — tryk på den blinkende stødknap","Hold om personens hoved under stødet","Stød gives kun af læger — afvent ambulancen"],a:1,x:"Sørg for at INGEN rører personen — sig højt 'Ingen rører patienten!'. Tryk den blinkende stødknap. Genoptag HLR straks efter stød."},
+  {c:"💓 HLR-SCENARIE",q:"Du giver HLR i 10 minutter alene. Du er ved at bryde sammen af udmattelse. Hvad prioriterer du?",o:["Trykhastighed — hold 100/min","Trykdybde — 5–6 cm er vigtigere end hastighed","Stop og hvil i 2 minutter","Giv kun indblæsninger fra nu af"],a:1,x:"Trykdybde er vigtigere end trykhastighed, når du er udmattet. Overfladiske tryk pumper for lidt blod. Kald på hjælp så du kan skiftes."},
+  {c:"💓 HLR-SCENARIE",q:"I er to til at give HLR. Hvornår skifter I?",o:["Aldrig — én person giver altid HLR","Ca. hvert 2. minut for at undgå udmattelse og kvalitetsforringelse","Hvert 10. minut","Kun når den ene siger stop"],a:1,x:"Skift ca. hvert 2. minut. Udmattelse forringer trykdybde og -hastighed markant. Koordinér skiftet hurtigt ved pause til indblæsninger."},
+  {c:"💓 HLR-SCENARIE",q:"Personen du giver HLR til begynder pludselig at trække vejret normalt og reagerer. Hvad gør du?",o:["Fortsæt HLR forebyggende i 2 minutter","Stop HLR — læg i stabilt sideleje, hold varmen, bliv hos ham til ambulancen kommer","Ring 1-1-2 igen og start forfra","Giv 5 ekstra indblæsninger"],a:1,x:"Stop HLR når personen trækker vejret normalt. Læg i stabilt sideleje, indpak mod kulde, bliv hos personen og kontrollér vejrtrækning løbende. Ring 1-1-2 hvis ikke allerede gjort."},
+
+  // ── SCENARIE: SYGDOMME ───────────────────────────────────────────────────
+  {c:"🫀 HJERTEKRAMPE",q:"En 60-årig mand klager over trykkende smerter midt i brystet der stråler ud i venstre arm. Han er svimmel og svedende. Hvad mistænker du?",o:["Muskelkrampe — giv ham vand","Angina pectoris / mulig blodprop i hjertet — ring 1-1-2 STRAKS","En lungebetændelse — ring lægen","Panikangst — berolig ham"],a:1,x:"Trykkende brystsmerter + udstråling til arm + sved + svimmelhed = klassiske symptomer på hjertekrampe/blodprop. Ring 1-1-2 straks. Lad ham sidde i aflastende stilling."},
+  {c:"🫀 HJERTEKRAMPE",q:"Manden med brystsmerter er ved bevidsthed. Hvordan placerer du ham mens du venter på ambulancen?",o:["Fladt på ryggen","Siddende eller i aflastende rygleje — aldrig fladt","Stabilt sideleje","Stående op for at lette vejrtrækning"],a:1,x:"Person med hjertesygdom ved bevidsthed placeres siddende eller i aflastende rygleje. MÅ IKKE lægges fladt — det belaster hjertet yderligere."},
+  {c:"🧠 SLAGTILFÆLDE",q:"En dame på 70 år har pludseligt hængende mundvig, kan ikke løfte højre arm og taler sludder. Hvad er det sandsynligvis?",o:["Hun er fuld","Hjerneblødning eller blodprop i hjernen (slagtilfælde) — ring 1-1-2 STRAKS","En epileptisk anfald — vent det af","Sukkersyge — giv hende sukker"],a:1,x:"Pludseligt hængende ansigt, lammelse i arm og talebesvær = klassiske tegn på slagtilfælde (apopleksi). TID ER HJERNE — ring 1-1-2 straks. Ingen mad/drikke."},
+  {c:"🧠 SLAGTILFÆLDE",q:"Hvad er FAST-testen til at genkende et slagtilfælde?",o:["Fuld, Ankel, Skulder, Tale","Face (ansigt), Arms (arme), Speech (tale), Time (tid — ring 1-1-2)","Feber, Angst, Sved, Temperatur","Fald, Angst, Smerter, Talebesvær"],a:1,x:"FAST: F = Face (hængende ansigt?), A = Arms (kan de løfte begge arme?), S = Speech (utydelig tale?), T = Time (ring 1-1-2 STRAKS). Hvert minut tæller."},
+  {c:"⚡ EPILEPSI",q:"En ung mand på gaden begynder at ryste ukontrollabelt i hele kroppen og falder om. Hvad gør du?",o:["Hold ham fast så han ikke skader sig","Stik noget i munden så han ikke bider tungen over","Fjern hårde genstande rundt om ham, læg noget blødt under hovedet, observer","Spring til og giv HLR straks"],a:2,x:"Epileptisk anfald: Fjern farlige genstande. Læg noget blødt under hovedet. Hold IKKE fast. Stik ALDRIG noget i munden. Ring 1-1-2 hvis anfald varer over 5 min, er første gang, eller personen ikke vågner efter anfaldet."},
+  {c:"⚡ EPILEPSI",q:"Anfaldet er overstået. Personen er stadig bevidstløs men trækker vejret normalt. Hvad gør du?",o:["Start HLR","Stabil sideleje — der er risiko for opkast og luftvejsblokering","Sæt ham oprejst","Giv vand"],a:1,x:"Efter epileptisk anfald: stabilt sideleje, da der er risiko for opkast. Personen vil typisk være forvirret og træt — det er normalt. Kontrollér vejrtrækning."},
+  {c:"🍬 SUKKERSYGE",q:"En diabetiker er forvirret, ryster og sveder kraftigt. Hans ven siger han har taget sin insulin men ikke spist. Hvad er sandsynligvis på færde?",o:["For højt blodsukker (hyperglykæmi)","For lavt blodsukker (hypoglykæmi) — giv sukker HVIS han er ved bevidsthed","Insulinforgiftning — ring 1-1-2 straks","Alkoholforgiftning"],a:1,x:"Forvirring + rysten + sved + ingen mad efter insulin = for lavt blodsukker (hypoglykæmi). Er personen ved bevidsthed: giv sukkerholdigt (juice, slik, sukker). Er han bevidstløs: ring 1-1-2, giv IKKE mad/drikke."},
+  {c:"🍬 SUKKERSYGE",q:"En diabetiker er bevidstløs. Du ved ikke om det er for højt eller for lavt blodsukker. Hvad gør du?",o:["Giv sukker — det skader ikke","Vurdér ABC, ring 1-1-2 — giv IKKE mad/drikke til bevidstløse","Giv vand og vent","Giv insulin"],a:1,x:"Bevidstløs person: aldrig give mad eller drikke — risiko for aspiration (kvælning). Vurdér ABC, ring 1-1-2. Hverken for højt eller lavt blodsukker kan behandles sikkert uden professionel hjælp."},
+  {c:"🫁 ASTMA",q:"En ung kvinde får et astmaanfald — hun hvæser, kan næsten ikke tale og er blåfarvet om læberne. Hvad gør du?",o:["Læg hende fladt ned","Lad hende sidde foroverbøjet — sæt hende selv til at styre sin medicin, ring 1-1-2 ved svær anfald","Giv HLR forebyggende","Stands hendes vejrtrækning så hendes krop 'resetter' sig selv"],a:1,x:"Alvorligt astmaanfald: lad personen sidde foroverbøjet (letter vejrtrækning), hjælp med inhalator hvis hun har den, ring 1-1-2 ved svært anfald med cyanose og manglende tale."},
+  {c:"🤧 ALLERGI",q:"En mand er stukket af en hveps og begynder at få hævet hals, vejrtrækningsbesvær og er ved at besvime. Hvad er det?",o:["Normal reaktion — vent det af","Anafylaktisk shock (svær allergisk reaktion) — ring 1-1-2 STRAKS","Bisect-allergi — giv antihistamin og vent","Panikangst"],a:1,x:"Anafylaktisk shock: hævet hals + vejrtrækningsbesvær + besvimelse efter stik/mad = livsfarlig allergisk reaktion. Ring 1-1-2 straks. Har personen en epi-pen, hjælp med at give den."},
+  {c:"🌡️ FORBRÆNDING",q:"Et barn har fået kogende vand på armen. Huden er rød og der begynder at danne sig blærer. Hvad gør du?",o:["Smør med smør eller creme","Kol med rindende koldt vand i 20 minutter — fjern IKKE tøj der sidder fast","Bryd blærerne og dæk med forbinding","Pak ind i aluminiumsfolie straks"],a:1,x:"Forbrænding: kol med rindende koldt vand i mindst 20 minutter. Fjern løstsiddende tøj og smykker men IKKE tøj der sidder fast. Ingen smør/creme. Ring 1-1-2 ved store forbrændinger eller hos børn."},
+  {c:"🌡️ FORBRÆNDING",q:"En soldat har fået 3. grads forbrænding på hånden — huden er brun/sort og hård. Han siger den ikke gør ondt. Hvorfor?",o:["Forbrændingen er overfladisk og nem at behandle","Nerverne i huden er ødelagt — det er et ALVORLIGT tegn","Han er i shock og mærker ikke smerterne","Kulden har bedøvet området"],a:1,x:"3. grads forbrænding ødelægger alle hudlag inkl. nerver. Fraværet af smerte er et alvorligt tegn — ikke et godt. Kræver akut hospitalsbehandling. Kol med vand og ring 1-1-2."},
+  {c:"❄️ HYPOTERMI",q:"En mand er fundet i skoven i frostvejr, er kold og forvirret, ryster og kan næsten ikke tale. Hvad gør du?",o:["Gnid ham kraftigt for at varme ham op","Flyt til varmt sted, fjern vådt tøj, pak ind i tæpper fra top til tå, ring 1-1-2","Giv ham kold drik for at 'chokke' kroppen til at varme sig selv","Lad ham gå rundt for at producere kropsvarme"],a:1,x:"Hypotermi (undertemperatur): flyt til ly, fjern våde klæder, pak ind forsigtigt — undgå pludselige bevægelser (kan udløse hjertestop). Ingen gni/massér. Ring 1-1-2. Varm langsomt op."},
+  {c:"☀️ HEDESLAG",q:"En soldat under øvelse er faldet om i varmen. Han er varm og tør på huden, forvirret og trækker vejret hurtigt. Hvad mistænker du?",o:["Dehydrering — giv ham meget vand at drikke","Hedeslag — flyt til skygge, køl aktivt med vand, ring 1-1-2","Normal træthed — lad ham hvile","Lavt blodsukker — giv sukker"],a:1,x:"Hedeslag: varm tør hud + forvirring + hurtig vejrtrækning = farlig tilstand. Flyt i skygge/køligt, køl aktivt (vand på hud, vift), ring 1-1-2. Hedeslag kan være livstruende."},
+  {c:"🧊 FORFRYSNING",q:"En soldat har haft støvler på i frostvejr hele dagen. Tæerne er hvide, hårde og følelsesløse. Hvad gør du IKKE?",o:["Flyt til varmt sted","Gnid og massér de frosne tæer kraftigt","Fjern forsigtigt sko og sokker","Ring 1-1-2 eller søg læge"],a:1,x:"GNI ALDRIG forfrysninger — det kan ødelægge vævene yderligere. Opvarm forsigtigt i lunkent vand (37–39°C) eller med kropsvarme. Undgå direkte varme (ovn/radiator). Søg læge."},
+  {c:"🤕 HJERNERYSTELSE",q:"En spiller er faldet og slået hovedet mod banen. Han er desorienteret, husker ikke hvad der skete og klager over hovedpine. Hvad gør du?",o:["Giv ham en ibuprofen og lad ham spille videre","Stop aktiviteten straks — hjernerystelse mistænkt. Søg læge. Observer for forværring","Lad ham ligge i 5 minutter og se om det går over","Giv HLR forebyggende"],a:1,x:"Mistænkt hjernerystelse: stop aktiviteten straks. Ingen genoptagelse af sport samme dag. Søg læge. Advarselssymptomer der kræver 1-1-2: bevidsthedstab, gentagne opkastninger, kramper, forværrende hovedpine."},
+  {c:"🤕 HJERNERYSTELSE",q:"Hvad er advarselssymptomer efter et slag mod hovedet der KRÆVER du ringer 1-1-2?",o:["Let svimmelhed i 5 minutter","Bevidsthedstab, gentagne opkastninger, kramper eller tiltagende stærk hovedpine","Lidt ondt i nakken","Træthed de første timer"],a:1,x:"Ring 1-1-2 ved: bevidsthedstab (selv kortvarigt), gentagne opkastninger, kramper, eller tiltagende stærk hovedpine. Det kan indikere alvorlig hjerneblødning."},
+  {c:"🦴 KNOGELBRUD",q:"En løber er faldet og benet ser forrykket ud — han kan ikke bevæge det uden smerte. Du mistænker brud. Hvad gør du IKKE?",o:["Immobilisér benet i den stilling du finder det","Ring 1-1-2","Forsøg at rette benet ud","Varm benet med tæppe og vent på ambulance"],a:2,x:"Forsøg ALDRIG at rette et muligt brud ud. Immobilisér i den stilling du finder det. Åbne brud (knogle ses) dækkes med en ren forbinding. Ring 1-1-2."},
+  {c:"🦴 KNOGELBRUD",q:"En soldat har et åbent brud — knogleenden stikker ud gennem huden. Hvad gør du?",o:["Tryk knogleenden tilbage ind","Dæk med en ren, fugtig forbinding uden at trykke knogleenden ned, ring 1-1-2","Klem såret tæt med fingrene","Rens med sprit og lav en fast forbinding"],a:1,x:"Åbent brud: dæk med ren forbinding uden at trykke knogleenden tilbage. Forsøg IKKE at rengøre eller reponere. Ring 1-1-2. Kontrollér for shock."},
+  {c:"🔥 KULILTE",q:"Du finder din makker bevidstløs i en lukket garage med en kørende bil. Røg lugter ikke. Hvad gør du?",o:["Bær ham ud og giv ham ilt fra bilen","Hold vejret, bær ham ud i frisk luft straks, ring 1-1-2, vurdér ABC","Åbn garagevinduet og vent","Start kunstigt åndedræt inde i garagen"],a:1,x:"Kulilte er usynlig og lugtfri. Hold vejret, bær ham UD i frisk luft STRAKS — du kan selv miste bevidstheden på sekunder. Ring 1-1-2. Vurdér ABC udenfor."},
+  {c:"💊 FORGIFTNING",q:"En pige på 4 år har muligvis spist en håndfuld tabletter fra en medicinæske. Hun er stadig vågen. Hvad gør du?",o:["Fremkald opkastning straks","Ring GiftLinjen eller 1-1-2 straks — fremkald ALDRIG opkastning uden vejledning","Giv hende mælk og vent","Vent og se om der sker noget"],a:1,x:"Ring GiftLinjen eller 1-1-2 straks. Fremkald ALDRIG opkastning uden vejledning — ved visse gifte er det farligt. Tag medicin-æsken med til hospitalet."},
+  {c:"🤢 MAVESMERTER",q:"En soldat klager over pludselige, kraftige smerter i maveregionen. Maven er hård og spændt ved berøring. Hvad kan det indikere?",o:["Almindelig mavepine — giv ham vand","Akut abdomen (fx blindtarmsbetændelse, bristet organ) — ring 1-1-2, ingen mad/drikke","Muskelkrampe — giv ham en pause","Forstoppelse — vent det af"],a:1,x:"Kraftige pludselige mavesmerter + hård/spændt mave = tegn på akut abdomen. Ring 1-1-2. Ingen mad eller drikke. Lejr personen i den stilling der er mest komfortabel."},
+  {c:"🌊 NÆRDRUKNET",q:"En person er reddet op af vandet. Han er ved bevidsthed men hostet og forvirret. Han siger han har det fint nu. Hvad gør du?",o:["Send ham hjem — han klarer sig fint","Ring 1-1-2 — alle der har været under vand skal tilses af læge, også selvom de synes OK","Giv ham blot noget varmt at drikke","Giv 5 forebyggende indblæsninger"],a:1,x:"Alle der har været under vand skal tilses af læge — selv tilsyneladende raske kan udvikle 'sekundær drukning' timer senere, hvor vand i lungerne giver vejrtrækningsproblemer."},
+  {c:"🏋️ MUSKELSKADE",q:"En soldat forstuer sin ankel under løb. Anklen svulmer hurtigt op og han kan ikke belaste den. Hvad er RICE?",o:["Ring, Indpakning, Cooling, Elevér","Rest (hvile), Ice (is/kulde), Compression (forbinding), Elevation (løft over hjerteniveau)","Rens, Isol, Comp, Eksaminér","Rengøring, Immobilisér, Controle, Evakuér"],a:1,x:"RICE: Rest (stop aktiviteten), Ice (kulde i 15–20 min ad gangen), Compression (elastisk forbinding), Elevation (løft anklen over hjerteniveau). Reducerer hævelse og smerte."},
+  {c:"🐍 HUGORMEBID",q:"En soldat er bidt af en hugorm på hånden. Hvad gør du IKKE?",o:["Hold bidestedet i ro og under hjerteniveau","Ring 1-1-2 / søg akut læge","Sug giften ud og udskær bidestedet","Fjern ringe og armbånd da hånden kan hæve"],a:2,x:"Sug ALDRIG gift ud og skær ALDRIG i bidestedet — det hjælper ikke og forværrer skaden. Hold bidestedet i ro og under hjerteniveau. Fjern smykker. Søg læge straks — hugormebid kræver observation og evt. modgift."},
+];
+
+
+// shuffledOpts[qIdx] = {opts: string[], correctIdx: number}
+let qOrd=[],qIdx=0,qScore=0,qAns=false,qWrong=[],qShuffled=[];
+
+function shuffleOptsForQuestion(q){
+  // Build array of {text, isCorrect}
+  const items = q.o.map((text,i)=>({text, isCorrect: i===q.a}));
+  // Fisher-Yates shuffle
+  for(let i=items.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [items[i],items[j]]=[items[j],items[i]];
+  }
+  return {
+    opts: items.map(x=>x.text),
+    correctIdx: items.findIndex(x=>x.isCorrect)
+  };
+}
+
+function startQuiz(){
+  qOrd=shuffle([...Array(Q.length).keys()]);
+  // Pre-shuffle options for every question in this round
+  qShuffled = qOrd.map(qi => shuffleOptsForQuestion(Q[qi]));
+  qIdx=0; qScore=0; qWrong=[];
+  renderQ();
+}
+
+function renderQ(){
+  const c=document.getElementById('qc');
+  if(qIdx>=qOrd.length){
+    const pct=Math.round(qScore/qOrd.length*100);
+    const col=pct>=80?'var(--green)':pct>=60?'var(--amber)':'var(--red)';
+    const grade=pct>=80?'Klar til kurset 🎖️':pct>=60?'Næsten klar 💪':'Fortsæt træningen 📖';
+    let wh='';
+    if(qWrong.length){
+      wh='<div class="wlist"><div style="font-size:12px;font-weight:700;color:var(--muted2);margin-bottom:8px;letter-spacing:1px;text-transform:uppercase">Fejlede spørgsmål</div>';
+      qWrong.forEach(({qi,correctText})=>{
+        wh+=`<div class="witem"><div class="wq">${Q[qi].q}</div><div class="wa">✓ ${correctText}</div></div>`;
+      });
+      wh+='</div>';
+    }
+    c.innerHTML=`<div class="score-screen"><div class="score-num" style="color:${col}">${qScore}<span style="font-size:36px;color:var(--muted)">/${qOrd.length}</span></div><div class="score-pct" style="color:${col}">${pct}%</div><div class="score-grade">${grade}</div>${wh}<button class="bigbtn" onclick="startQuiz()">Tag quizzen igen</button><button class="bigbtn out" onclick="nav('oversigt',document.querySelector('.bnav button'))">Gå til oversigt</button></div>`;
+    return;
+  }
+  const qi=qOrd[qIdx];
+  const q=Q[qi];
+  const {opts, correctIdx}=qShuffled[qIdx];
+  qAns=false;
+  const pct=(qIdx/qOrd.length*100).toFixed(0);
+  const L=['A','B','C','D'];
+  const isScenario = /\p{Emoji}/u.test(q.c);
+  const chipClass = isScenario ? 'chip scenario' : 'chip';
+  c.innerHTML=`
+    <div class="qhdr">
+      <span class="ql">Spørgsmål ${qIdx+1}/${qOrd.length}</span>
+      <span class="qr">⭐ ${qScore}</span>
+    </div>
+    <div class="pbar"><div class="pbar-fill" style="width:${pct}%"></div></div>
+    <div class="qcard">
+      <span class="${chipClass}">${q.c}</span>
+      <div class="qtext">${q.q}</div>
+      <div class="opts">
+        ${opts.map((o,i)=>`<button class="opt" id="o${i}" onclick="ansQ(${i},${correctIdx})">`+
+          `<span class="oltr">${L[i]}</span><span>${o}</span></button>`).join('')}
+      </div>
+    </div>
+    <div class="fb" id="fb"></div>
+    <div id="nxt" style="display:none"><button class="bigbtn" onclick="nextQ()">Næste spørgsmål →</button></div>`;
+}
+
+function ansQ(idx, correctIdx){
+  if(qAns)return;
+  qAns=true;
+  const qi=qOrd[qIdx];
+  const q=Q[qi];
+  const {opts}=qShuffled[qIdx];
+  const L=['A','B','C','D'];
+  const fb=document.getElementById('fb');
+
+  for(let i=0;i<opts.length;i++){
+    const b=document.getElementById('o'+i);
+    b.disabled=true;
+    if(i===correctIdx) b.classList.add('correct');
+    else if(i===idx)   b.classList.add('wrong');
+  }
+
+  if(idx===correctIdx){
+    qScore++;
+    fb.className='fb show ok';
+    fb.innerHTML=`
+      <div class="fb-verdict">✅ Korrekt!</div>
+      <div class="fb-explain">${q.x}</div>`;
+  } else {
+    qWrong.push({qi, correctText: opts[correctIdx]});
+    fb.className='fb show bad';
+    fb.innerHTML=`
+      <div class="fb-verdict">❌ Forkert</div>
+      <div class="fb-correct">Rigtigt svar: <strong>${L[correctIdx]}) ${opts[correctIdx]}</strong></div>
+      <div class="fb-explain">${q.x}</div>`;
+  }
+  document.getElementById('nxt').style.display='block';
+  setTimeout(()=>fb.scrollIntoView({behavior:'smooth',block:'nearest'}),80);
+}
+
+function nextQ(){qIdx++;renderQ();window.scrollTo(0,0);}
+
+// ── FLASHCARDS ──────────────────────────────────────
+const FC={
+  hlr:[
+    {q:"HLR-forholdet for voksne?",a:"<strong>30:2</strong> — 30 kompressioner, 2 indblæsninger"},
+    {q:"Trykdybde ved voksne?",a:"<strong>5 cm</strong> — ikke over 6 cm"},
+    {q:"Trykhastighed?",a:"Min. <strong>100</strong> — max. <strong>120 tryk/min</strong>"},
+    {q:"Hvornår stopper du HLR?",a:"1) Redningsmandskab overtager<br>2) Normal vejrtrækning<br>3) Udmattelse"},
+    {q:"Maks. pause ved indblæsninger?",a:"<strong>10 sekunder</strong>"},
+    {q:"HLR ved iltmangel — hvad starter du med?",a:"<strong>5 indblæsninger</strong>. Derefter HLR (15/2 børn / 30/2 voksne) i 1 min., så 1-1-2"},
+    {q:"Trykdybde børn 1–8 år?",a:"<strong>5 cm</strong> = 1/3 af brystkassens tykkelse"},
+    {q:"Trykdybde spædbørn 0–1 år?",a:"<strong>4 cm</strong> = 1/3 af brystkassens tykkelse<br><span style='color:var(--green)'>ERC 2025: brug to-tommelfinger-teknik — 2-finger afskaffet</span>"},
+    {q:"AED og spædbørn — ERC 2025?",a:"<strong>Må bruges til ALLE aldre</strong> inkl. spædbørn. Brug pæd. elektroder hvis tilgængeligt. De fleste spædbørn er ikke i shockbar rytme og får ikke stød."},
+    {q:"Overlevelseskædens 4 led?",a:"1) Tidlig alarm<br>2) Tidlig HLR<br>3) Tidlig AED<br>4) Avanceret efterbehandling"},
+    {q:"AED — hvornår er det mest effektivt?",a:"Inden for <strong>3–5 minutter</strong> → 60–75% overlevelse"},
+  ],
+  abc:[
+    {q:"A i ABC?",a:"<strong>Airway = Luftveje</strong>. Hageløft skaber frie luftveje."},
+    {q:"B i ABC?",a:"<strong>Breathing = Åndedræt</strong>. Se, lyt og føl — maks. 10 sek."},
+    {q:"C i ABC?",a:"<strong>Circulation = Kredsløb</strong>. Ingen/unormal vejrtrækning → HLR."},
+    {q:"Hageløft — teknik?",a:"1 hånd på panden + 2 fingre under hagen. Hoved bagover til naturlig modstand."},
+    {q:"Agonal vejrtrækning?",a:"Langsom, dyb, rallende vejrtrækning. <strong>Påbegynd HLR straks!</strong>"},
+    {q:"Bevidstløs + NORMAL vejrtrækning?",a:"Stabilt sideleje + indpak mod kulde. Kontrollér jævnligt."},
+    {q:"3 kontroller for vejrtrækning?",a:"<strong>SE</strong> om brystkasse bevæger sig<br><strong>LYT</strong> ved mund/næse<br><strong>FØEL</strong> udåndingsluft på kind"},
+    {q:"Ilt i indåndet luft — og optaget i blodet?",a:"Indeholder <strong>21%</strong>. Ca. <strong>4%</strong> optages i blodet."},
+  ],
+  tal:[
+    {q:"Nødnummer?",a:"<strong>1-1-2</strong>"},
+    {q:"AED inden 3–5 min giver?",a:"<strong>60–75%</strong> overlevelse"},
+    {q:"Chance falder pr. minut uden HLR?",a:"<strong>10%</strong>"},
+    {q:"Advarselstrekant afstand?",a:"Min. <strong>50 m</strong> (motorvej: <strong>100 m</strong>)"},
+    {q:"Tourniquet placeres? (ERC 2025)",a:"<strong>5–7 cm over</strong> såret — aldrig på led (opdateret fra 10 cm i ERC 2025)"},
+    {q:"Åbent brystsår — dækkes? (ERC 2025)",a:"<strong>NEJ — dæk det IKKE lufttæt</strong><br>Lad det kommunikere frit med omgivelserne. Risiko for spændingspneumothorax ved okklusiv forbinding."},
+    {q:"Ny tilgang: ring 1-1-2 hvornår? (ERC 2025)",a:"<strong>Straks for alle bevidstløse</strong> — behøver IKKE vente på vejrtrækningstjek"},
+    {q:"Hvad er ABCDE? (ERC 2025)",a:"A=Airway · B=Breathing · C=Circulation<br><strong>D=Disability</strong> (bevidsthed/neurologi)<br><strong>E=Exposure</strong> (undersøg hele kroppen)"},
+    {q:"Hæmostatisk forbinding — hvad er det? (ERC 2025)",a:"Blodhæmmende gaze/forbinding (fx QuikClot) lægges <strong>direkte i såret</strong> + fast tryk ovenpå. Anbefales nu aktivt af ERC 2025."},
+    {q:"Pacemaker og AED-elektrode?",a:"Min. <strong>10 cm</strong> væk"},
+    {q:"Normal legemstemperatur?",a:"<strong>37°C</strong>"},
+    {q:"Alutæppe tilbagekalder hvad af varmen?",a:"Op mod <strong>80%</strong>"},
+    {q:"Blod i en voksen krop?",a:"Ca. <strong>5–6 liter</strong> — halvdelen tabt = livsfare"},
+    {q:"Højspændingsledning — min. afstand?",a:"<strong>20 meter</strong>"},
+    {q:"Hjertestop i DK pr. år?",a:"Ca. <strong>3.500</strong> — kun 13% overlever i dag"},
+  ],
+  sit:[
+    {q:"Drukneulykke — FØRSTE skridt?",a:"Ring <strong>1-1-2</strong> FØRST. Bjærg kun hvis sikkert. Kunstigt åndedræt så snart du kan bunde."},
+    {q:"El-ulykke 230V — gælder?",a:"<strong>Rør ALDRIG</strong> tilskadekomne inden strøm afbrudt. Afbryd strøm. Vurdér ABC."},
+    {q:"Silo/brønd — gælder?",a:"<strong>Gå ALDRIG ned.</strong> Ring 1-1-2. Vift luft ned med jakke."},
+    {q:"Total luftvejsblokering — voksen?",a:"5 rygslag → 5 Heimlich-tryk. Gentag. Bevidstløs → HLR 30/2. Ring 1-1-2."},
+    {q:"Fremmedlegeme i åbent brystsår?",a:"<strong>FJERN DET IKKE</strong> — prop for blødning. 'Doughnut' rundt om det.<br><span style='color:var(--green)'>ERC 2025: Dæk IKKE åbent brystsår lufttæt — lad det kommunikere frit</span>"},
+    {q:"Tourniquet — hvad noteres?",a:"Tidspunktet skrives på <strong>panden</strong>. TQ må ALDRIG løsnes."},
+    {q:"Jord-/sneskred — første prioritet?",a:"Grav <strong>HOVEDET</strong> fri. Start kunstigt åndedræt. Ring 1-1-2."},
+  ],
+  shock:[
+    {q:"4 årsager til shock?",a:"1) Stort blodtab<br>2) Forbrænding<br>3) Karudvidelse<br>4) Nedsat hjertefunktion"},
+    {q:"Shocksymptomer?",a:"Bleg + koldtsvedende + hurtig vejrtrækning + svimmel + omtåget → bevidstløs"},
+    {q:"Shock — handling?",a:"Læg ned, hæv blødende sted, stop blødning, indpak, ring 1-1-2"},
+    {q:"Shock — undtagelse fra 'læg ned'?",a:"Bevidst med <strong>nedsat hjertefunktion</strong> = sidde/aflastende rygleje"},
+    {q:"Gennemblødt forbinding?",a:"Læg <strong>ny forbinding OVEN PÅ</strong> — fjern aldrig eksisterende"},
+    {q:"Trykforbinding?",a:"Flad genstand over såret + ekstra forbinding om for maksimalt tryk"},
+  ]
+};
+const allFC=Object.values(FC).flat();
+const FCc={alle:allFC,...FC};
+let fcdeck=[],fcidx=0;
+function loadFC(){const cat=document.getElementById('fc-cat').value;fcdeck=shuffle(FCc[cat]);fcidx=0;document.getElementById('fc').classList.remove('flipped');upFC();}
+function upFC(){if(!fcdeck.length)return;document.getElementById('fc').classList.remove('flipped');setTimeout(()=>{document.getElementById('fc-q').textContent=fcdeck[fcidx].q;document.getElementById('fc-a').innerHTML=fcdeck[fcidx].a;document.getElementById('fc-ctr').textContent=`${fcidx+1} / ${fcdeck.length}`;},120);}
+function flipFC(){document.getElementById('fc').classList.toggle('flipped');}
+function nextFC(){fcidx=(fcidx+1)%fcdeck.length;upFC();}
+function prevFC(){fcidx=(fcidx-1+fcdeck.length)%fcdeck.length;upFC();}
+
+// ── SWIPE ───────────────────────────────────────────
+let tx=0,ty=0;
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',e=>{if(!document.getElementById('flashcards').classList.contains('active'))return;const dx=e.changedTouches[0].clientX-tx;const dy=e.changedTouches[0].clientY-ty;if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>40){dx<0?nextFC():prevFC();}},{passive:true});
+
+// ── SITUATIONER ─────────────────────────────────────
+const SITS=[
+  {icon:"🫀",title:"Hjertestop",steps:[
+    {t:"Ring 1-1-2 — send nogen afsted efter AED"},
+    {t:"Tjek bevidsthed: tal højt + rusk skuldre"},
+    {t:"Hageløft — skab frie luftveje"},
+    {t:"Se, lyt og føl maks. 10 sek.",w:"Agonal vejrtrækning = start HLR"},
+    {t:"30 kompressioner: 5–6 cm, 100–120/min, håndroden midt på bryst",e:true},
+    {t:"2 indblæsninger: hageløft, klem næse, ca. 1 sek."},
+    {t:"AED: tænd og følg stemmeinstruktion"},
+    {t:"Fortsæt HLR til redningsmandskab overtager"},
+  ]},
+  {icon:"🩸",title:"Skræmmende blødning (ERC 2025)",steps:[
+    {t:"Skab sikkerhed — fjern årsagen eller flyt personen"},
+    {t:"Pres direkte mod det blødende sted med hånd/finger",e:true},
+    {t:"Læg ned, løft blødende sted over hjerteniveau"},
+    {t:"Læg hæmostatisk forbinding direkte i såret + fast tryk ovenpå",e:true},
+    {t:"Anlæg trykforbinding — kun én lillefinger ml. gaze og hud"},
+    {t:"Stadig blødning → Tourniquet 5–7 cm over sår (ERC 2025)",w:"ALDRIG løsn TQ — skriv tidspunkt på panden"},
+    {t:"Ring 1-1-2"},
+  ]},
+  {icon:"🫁",title:"Fremmedlegeme i luftveje",steps:[
+    {t:"Spørg: 'Er du ved at blive kvalt?'"},
+    {t:"Delvis blokering: opfordre til hoste — observer"},
+    {t:"Total blokering: overkrop foroverbøjet → 5 rygslag mod skulderbladene",e:true},
+    {t:"Ingen effekt → 5 Heimlich-tryk indad og opad"},
+    {t:"Gentag serier: 5 slag + 5 Heimlich"},
+    {t:"Bevidstløs → HLR 30/2",w:"Ring 1-1-2 ved bevidstløshed"},
+  ]},
+  {icon:"💧",title:"Drukneulykke",steps:[
+    {t:"Ring 1-1-2 FØRST",w:"Tænk på din egen sikkerhed"},
+    {t:"Bjærg kun hvis sikkert — hav visuel kontakt til stedet"},
+    {t:"Kunstigt åndedræt så snart du kan bunde/er i båd/på land"},
+    {t:"HLR ved iltmangel: start med 5 indblæsninger",e:true},
+    {t:"Derefter HLR 30/2 (voksne) eller 15/2 (børn)"},
+    {t:"Stabilt sideleje ved bevidstløs med normal vejrtrækning"},
+  ]},
+  {icon:"⚡",title:"El-ulykke",steps:[
+    {t:"Rør ALDRIG tilskadekomne inden strøm er afbrudt",w:"Du risikerer stød"},
+    {t:"Lavspænding (230V): afbryd strøm ved sikring eller stik"},
+    {t:"Højspænding: ring 1-1-2 — hold MINDST 20 m afstand",w:"Rør aldrig ledninger"},
+    {t:"Vurdér ABC — HLR ved hjertestop"},
+    {t:"Køl forbrændinger med vand"},
+    {t:"Person med el-skade skal ALTID ses af læge",e:true},
+  ]},
+  {icon:"🏗️",title:"Silo & Brønd",steps:[
+    {t:"GÅ ALDRIG NED — iltfattig luft og giftige gasser er usynlige",w:"Livstruende"},
+    {t:"Ring 1-1-2 — meld 'silo-/brøndulykke'"},
+    {t:"Prøv at skabe luftcirkulation: vift med jakke ned i brønden"},
+    {t:"Vent på redningsmandskab med specialudstyr"},
+  ]},
+  {icon:"🔫",title:"Skudsår",steps:[
+    {t:"Skab sikkerhed — er stedet sikkert?",w:"Ellers ring 1-1-2 og vent"},
+    {t:"Lille hul ≠ lille skade — projektilet giver store indre læsioner"},
+    {t:"Forbind BEGGE åbninger (indgang og udgang)",e:true},
+    {t:"Start behandling af skræmmende blødning"},
+    {t:"Ring 1-1-2"},
+  ]},
+  {icon:"🌡️",title:"Shock — tegn & handling",steps:[
+    {t:"Symptomer: bleg + koldtsvedende + hurtig vejrtrækning + svimmel"},
+    {t:"Læg ned, hæv blødende sted over hjerteniveau"},
+    {t:"Stop alle udvendige blødninger"},
+    {t:"Indpak mod kulde — oprethold 37°C",e:true},
+    {t:"UNDTAGELSE: hjertesvigt-patient = sidde/aflastende rygleje",w:""},
+    {t:"Ring 1-1-2 og revurdér løbende"},
+  ]},
+];
+
+function buildSits(){
+  const list=document.getElementById('sit-list');
+  SITS.forEach(s=>{
+    const stepsHTML=s.steps.map((step,j)=>`<li><span class="snum">${j+1}</span><span>${step.w?`<span class="warn">${step.t}</span>`:step.e?`<span class="em">${step.t}</span>`:step.t}</span></li>`).join('');
+    const div=document.createElement('div');
+    div.className='sit';
+    div.innerHTML=`<div class="sit-head" onclick="this.parentElement.classList.toggle('open')"><span class="sit-icon">${s.icon}</span><span class="sit-title">${s.title}</span><span class="sit-arrow">›</span></div><div class="sit-body"><ul class="steps">${stepsHTML}</ul></div>`;
+    list.appendChild(div);
+  });
+}
+
+startQuiz();loadFC();buildSits();
+</script>
+</body>
+</html>
