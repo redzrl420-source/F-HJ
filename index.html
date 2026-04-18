@@ -5,124 +5,503 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Førstehjælp · FSU</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap');
-:root{--bg:#0d0f0a;--bg2:#141810;--bg3:#1c2214;--border:#2a3520;--border2:#3a4a28;--green:#4ade80;--amber:#fbbf24;--red:#f87171;--text:#e8f0e0;--muted:#6b7c60;--muted2:#8a9a78;--white:#f0f5ea;--correct:#22c55e;--wrong:#ef4444;--r:12px}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{height:100%;background:var(--bg)}
-body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100%;overflow-x:hidden;padding-bottom:calc(72px + env(safe-area-inset-bottom));-webkit-font-smoothing:antialiased}
-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 16px;padding-top:calc(12px + env(safe-area-inset-top));display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:300}
-.logo{background:var(--green);color:#0a1a06;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:3px 8px;border-radius:4px;flex-shrink:0}
-header h1{font-size:16px;font-weight:700;color:var(--white);letter-spacing:-.3px}
-.bnav{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);z-index:300;padding-bottom:env(safe-area-inset-bottom)}
-.bnav button{background:none;border:none;color:var(--muted);padding:10px 4px 9px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:inherit;transition:color .15s}
-.bnav button .ni{font-size:20px;line-height:1}
-.bnav button .nl{font-size:10px;font-weight:600;letter-spacing:.3px}
-.bnav button.active{color:var(--green)}
-.page{display:none}.page.active{display:block}
-.wrap{padding:16px 14px 4px;max-width:640px;margin:0 auto}
-.ptitle{font-size:22px;font-weight:800;color:var(--white);letter-spacing:-.5px;margin-bottom:4px}
-.psub{font-size:13px;color:var(--muted2);margin-bottom:18px}
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:12px}
-.card-g{border-left:3px solid var(--green)}.card-a{border-left:3px solid var(--amber)}.card-r{border-left:3px solid var(--red)}
-.abc-row{display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:start}
-.abc-L{font-size:50px;font-weight:900;line-height:1;color:var(--green)}
-.abc-body h3{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted2);margin-bottom:8px}
-.abc-body ul{list-style:none}
-.abc-body ul li{font-size:14px;line-height:1.8;color:var(--text);padding-left:14px;position:relative}
-.abc-body ul li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--green);opacity:.55}
-.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-.stat{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 12px;text-align:center}
-.sv{font-size:26px;font-weight:900;color:var(--amber);letter-spacing:-1px;line-height:1;display:block}
-.sl{font-size:11px;color:var(--muted2);font-weight:500;display:block;margin-top:3px}
-.hlr-hero{border-radius:var(--r);padding:18px 16px;margin-bottom:12px;display:flex;align-items:center;gap:16px}
-.hlr-r{background:linear-gradient(135deg,#1a0808,#2d0f0f);border:1px solid #3d1515}
-.hlr-g{background:linear-gradient(135deg,#071a0b,#0f2d14);border:1px solid #153d1a}
-.hlr-num{font-size:68px;font-weight:900;line-height:1;flex-shrink:0;letter-spacing:-3px}
-.hlr-r .hlr-num{color:var(--red)}.hlr-g .hlr-num{color:var(--green)}
-.hlr-info h3{font-size:15px;font-weight:700;color:var(--white);margin-bottom:5px}
-.hlr-info p{font-size:13px;color:var(--muted2);line-height:1.55}
-.alert{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.6;color:var(--text);margin-bottom:12px}
-.alert strong{color:var(--red)}
-.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:16px;border-radius:10px;border:1px solid var(--border)}
-table{width:100%;border-collapse:collapse;font-size:13px}
-thead th{background:var(--bg3);color:var(--muted2);padding:10px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
-tbody td{padding:10px 12px;border-top:1px solid var(--border);color:var(--text);font-size:13px}
-tbody tr:nth-child(even) td{background:rgba(255,255,255,.015)}
-.chip{display:inline-block;background:var(--bg3);border:1px solid var(--border2);color:var(--muted2);font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;letter-spacing:.5px;text-transform:uppercase}
-.chip.scenario{background:rgba(251,191,36,.1);border-color:rgba(251,191,36,.35);color:var(--amber);letter-spacing:0;font-size:11px}
-.divider{height:1px;background:var(--border);margin:16px 0}
-.steps{list-style:none}
-.steps li{display:flex;gap:10px;margin-bottom:10px;font-size:14px;line-height:1.5;color:var(--text);align-items:flex-start}
-.snum{min-width:22px;height:22px;background:var(--green);color:#071a06;border-radius:50%;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.warn{color:var(--red);font-weight:700}.em{color:var(--green);font-weight:700}
-/* QUIZ */
-.qhdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.ql{font-size:12px;font-weight:600;color:var(--muted2)}
-.qr{font-size:12px;font-weight:700;color:var(--white)}
-.pbar{height:4px;background:var(--bg3);border-radius:2px;margin-bottom:16px;overflow:hidden}
-.pbar-fill{height:100%;background:linear-gradient(90deg,var(--green),#86efac);border-radius:2px;transition:width .4s cubic-bezier(.4,0,.2,1)}
-.qcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px 16px 16px;margin-bottom:12px}
-.qtext{font-size:17px;font-weight:700;line-height:1.45;color:var(--white);margin:10px 0 18px;letter-spacing:-.2px}
-.opts{display:grid;gap:9px}
-.opt{background:var(--bg3);border:1.5px solid var(--border);color:var(--text);padding:14px;min-height:54px;text-align:left;cursor:pointer;border-radius:10px;font-family:'Inter',sans-serif;font-size:14px;font-weight:500;line-height:1.4;transition:border-color .12s,background .12s;display:flex;align-items:center;gap:12px;width:100%}
-.opt:active:not(:disabled){background:var(--bg2);border-color:var(--border2)}
-.opt.correct{border-color:var(--correct);background:rgba(34,197,94,.1)}
-.opt.wrong{border-color:var(--wrong);background:rgba(239,68,68,.1)}
-.oltr{font-size:12px;font-weight:800;color:var(--muted);min-width:22px;height:22px;border-radius:6px;background:var(--bg2);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .12s}
-.opt.correct .oltr{background:var(--correct);border-color:var(--correct);color:#fff}
-.opt.wrong .oltr{background:var(--wrong);border-color:var(--wrong);color:#fff}
-.fb{border-radius:12px;padding:0;font-size:14px;line-height:1.6;display:none;margin-bottom:12px;overflow:hidden}
-.fb.show{display:block}
-.fb.ok{border:1px solid rgba(34,197,94,.35)}
-.fb.bad{border:1px solid rgba(239,68,68,.35)}
-.fb-verdict{padding:12px 16px 10px;font-size:16px;font-weight:800;letter-spacing:-.2px}
-.fb.ok .fb-verdict{background:rgba(34,197,94,.12);color:var(--correct)}
-.fb.bad .fb-verdict{background:rgba(239,68,68,.12);color:var(--wrong)}
-.fb-correct{padding:10px 16px 0;font-size:14px;color:var(--text)}
-.fb-correct strong{color:var(--green)}
-.fb-explain{padding:10px 16px 14px;font-size:14px;color:var(--muted2);line-height:1.65;border-top:1px solid var(--border);margin-top:10px}
-.bigbtn{width:100%;background:var(--green);color:#071a06;border:none;padding:16px;border-radius:10px;font-family:'Inter',sans-serif;font-size:15px;font-weight:800;letter-spacing:-.2px;cursor:pointer;transition:opacity .15s}
-.bigbtn:active{opacity:.85}
-.bigbtn.out{background:transparent;border:1.5px solid var(--border2);color:var(--muted2);margin-top:8px}
-.score-screen{text-align:center;padding:32px 4px}
-.score-num{font-size:80px;font-weight:900;letter-spacing:-4px;color:var(--white);line-height:1}
-.score-pct{font-size:15px;font-weight:700;margin:8px 0 4px}
-.score-grade{font-size:13px;color:var(--muted2);margin-bottom:28px}
-.wlist{text-align:left;margin-bottom:16px}
-.witem{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;font-size:13px}
-.wq{font-weight:600;color:var(--white);margin-bottom:4px}
-.wa{color:var(--green);font-size:12px}
-/* FLASHCARDS */
-.fc-area{perspective:1200px;margin-bottom:14px;min-height:230px}
-.fc{width:100%;min-height:230px;position:relative;transform-style:preserve-3d;transition:transform .4s cubic-bezier(.4,0,.2,1);cursor:pointer;-webkit-user-select:none;user-select:none}
-.fc.flipped{transform:rotateY(180deg)}
-.fc-front,.fc-back{position:absolute;inset:0;min-height:230px;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:var(--r);padding:24px 20px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
-.fc-front{background:var(--bg2);border:1px solid var(--border)}
-.fc-back{background:linear-gradient(135deg,#0f2510,#1a3c1a);border:1px solid rgba(74,222,128,.25);transform:rotateY(180deg)}
-.fc-front h2{font-size:18px;font-weight:700;line-height:1.45;color:var(--white);letter-spacing:-.3px;margin-bottom:14px}
-.fc-tap{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:5px}
-.fc-back p{font-size:16px;line-height:1.65;color:var(--text)}
-.fc-back strong{color:var(--green);font-weight:700}
-.fc-nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin-bottom:10px}
-.navbtn{background:var(--bg2);border:1px solid var(--border);color:var(--muted2);border-radius:10px;padding:12px;font-size:18px;cursor:pointer;font-family:inherit;transition:border-color .15s;width:100%}
-.navbtn:active{border-color:var(--green);color:var(--green)}
-.fc-ctr{text-align:center;font-size:13px;font-weight:600;color:var(--muted2);font-family:'JetBrains Mono',monospace}
-.fc-sel{background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:13px 14px;font-family:'Inter',sans-serif;font-size:14px;border-radius:10px;width:100%;margin-bottom:12px;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236b7c60'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
-/* SITUATIONER */
-.sit{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:10px;cursor:pointer}
-.sit-head{display:flex;align-items:center;gap:12px}
-.sit-icon{font-size:26px;flex-shrink:0}
-.sit-title{font-size:15px;font-weight:700;color:var(--white);flex:1}
-.sit-arrow{color:var(--muted);font-size:16px;transition:transform .2s}
-.sit.open .sit-arrow{transform:rotate(90deg);color:var(--green)}
-.sit-body{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
-.sit.open .sit-body{display:block}
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@500;700&display=swap');
+
+:root {
+  /* Core palette — emergency red + rescue green on near-black */
+  --bg:     #0a0c0a;
+  --bg2:    #111411;
+  --bg3:    #181c17;
+  --bg4:    #1e2420;
+  --border: #252d22;
+  --bord2:  #2f3a2a;
+  --red:    #e63946;
+  --red2:   #ff6b74;
+  --red-bg: rgba(230,57,70,.08);
+  --red-bd: rgba(230,57,70,.28);
+  --green:  #2dc653;
+  --green2: #52e87a;
+  --grn-bg: rgba(45,198,83,.08);
+  --grn-bd: rgba(45,198,83,.28);
+  --amber:  #f4a261;
+  --amb-bg: rgba(244,162,97,.08);
+  --amb-bd: rgba(244,162,97,.28);
+  --text:   #d4ddd0;
+  --text2:  #a0b09a;
+  --white:  #eef4ea;
+  --muted:  #5a6e54;
+  --ok:     #2dc653;
+  --wrong:  #e63946;
+  --r:      10px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { height: 100%; background: var(--bg); }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100%;
+  overflow-x: hidden;
+  padding-bottom: calc(68px + env(safe-area-inset-bottom));
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 0 16px;
+  padding-top: env(safe-area-inset-top);
+  height: calc(52px + env(safe-area-inset-top));
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 300;
+}
+
+.cross {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+.cross::before, .cross::after {
+  content: '';
+  position: absolute;
+  background: var(--red);
+  border-radius: 2px;
+}
+.cross::before { width: 10px; height: 28px; }
+.cross::after  { width: 28px; height: 10px; }
+
+header h1 {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: .3px;
+  text-transform: uppercase;
+}
+
+.erc-tag {
+  margin-left: auto;
+  background: var(--red-bg);
+  border: 1px solid var(--red-bd);
+  color: var(--red2);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 3px 7px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ── BOTTOM NAV ── */
+.bnav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  z-index: 300;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.bnav button {
+  background: none;
+  border: none;
+  color: var(--muted);
+  padding: 9px 4px 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  font-family: inherit;
+  transition: color .15s;
+}
+.bnav button .ni { font-size: 19px; line-height: 1; }
+.bnav button .nl { font-size: 9px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; }
+.bnav button.active { color: var(--red); }
+.bnav button.active .nl { color: var(--red); }
+
+/* ── LAYOUT ── */
+.page { display: none; }
+.page.active { display: block; }
+.wrap { padding: 14px 14px 8px; max-width: 620px; margin: 0 auto; }
+
+/* ── PAGE TITLES ── */
+.ptitle {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--white);
+  letter-spacing: -.3px;
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ptitle-icon { font-size: 18px; }
+.psub { font-size: 12px; color: var(--text2); margin-bottom: 16px; }
+
+/* ── SECTION LABEL ── */
+.sec-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 20px 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sec-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ── CARDS ── */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 14px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.card-red   { border-left: 3px solid var(--red); }
+.card-green { border-left: 3px solid var(--green); }
+.card-amber { border-left: 3px solid var(--amber); }
+
+/* ── NEW ERC BANNER ── */
+.erc-banner {
+  background: linear-gradient(135deg, rgba(230,57,70,.1), rgba(230,57,70,.04));
+  border: 1px solid var(--red-bd);
+  border-radius: var(--r);
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.erc-banner-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+.erc-banner-text { flex: 1; min-width: 0; }
+.erc-banner-text strong { display: block; font-size: 11px; font-weight: 800; color: var(--red2); letter-spacing: .5px; text-transform: uppercase; margin-bottom: 4px; }
+.erc-banner-text p { font-size: 12px; color: var(--text2); line-height: 1.55; }
+
+/* ── 3 PUNKT STEPS ── */
+.punkt-list { display: grid; gap: 8px; }
+.punkt-item { display: flex; gap: 10px; align-items: flex-start; }
+.punkt-num {
+  min-width: 22px; height: 22px;
+  background: var(--red);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 11px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.punkt-item span { font-size: 14px; font-weight: 600; color: var(--white); line-height: 1.5; }
+
+/* ── ABC TILES ── */
+.abc-tile {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 14px;
+  margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+.abc-letter {
+  font-size: 48px;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--red);
+}
+.abc-tile-head {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text2);
+  margin-bottom: 8px;
+}
+.abc-list { list-style: none; }
+.abc-list li {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--text);
+  padding-left: 12px;
+  position: relative;
+}
+.abc-list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 8px;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--red);
+  opacity: .7;
+}
+
+/* ── HLR HERO ── */
+.hlr-hero {
+  border-radius: var(--r);
+  padding: 16px 14px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  overflow: hidden;
+}
+.hlr-red  { background: linear-gradient(135deg, #1c0608, #2a0a0c); border: 1px solid #4a1215; }
+.hlr-grn  { background: linear-gradient(135deg, #061409, #0c2210); border: 1px solid #0f3a16; }
+.hlr-num  { font-size: 60px; font-weight: 900; line-height: 1; flex-shrink: 0; letter-spacing: -3px; }
+.hlr-red .hlr-num { color: var(--red); }
+.hlr-grn .hlr-num { color: var(--green); }
+.hlr-info { flex: 1; min-width: 0; }
+.hlr-info h3 { font-size: 14px; font-weight: 800; color: var(--white); margin-bottom: 5px; }
+.hlr-info p  { font-size: 12px; color: var(--text2); line-height: 1.6; }
+.hlr-note   { font-size: 11px; color: var(--green2); font-weight: 600; margin-top: 4px; display: block; }
+
+/* ── ALERT BOX ── */
+.alert {
+  background: var(--red-bg);
+  border: 1px solid var(--red-bd);
+  border-radius: var(--r);
+  padding: 11px 13px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.alert strong { color: var(--red2); }
+
+/* ── STAT GRID ── */
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+.stat {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 12px 10px;
+  text-align: center;
+}
+.sv { font-size: 22px; font-weight: 900; color: var(--amber); letter-spacing: -.5px; line-height: 1; display: block; }
+.sl { font-size: 10px; color: var(--text2); font-weight: 500; display: block; margin-top: 3px; line-height: 1.3; }
+
+/* ── TABLE ── */
+.tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 10px; border-radius: var(--r); border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 340px; }
+thead th { background: var(--bg3); color: var(--text2); padding: 9px 10px; text-align: left; font-size: 9px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
+tbody td { padding: 9px 10px; border-top: 1px solid var(--border); color: var(--text); }
+tbody tr:nth-child(even) td { background: rgba(255,255,255,.02); }
+
+/* ── STEPS LIST ── */
+.steps { list-style: none; }
+.steps li { display: flex; gap: 10px; margin-bottom: 9px; font-size: 13.5px; line-height: 1.5; color: var(--text); align-items: flex-start; }
+.snum {
+  min-width: 20px; height: 20px;
+  background: var(--red);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 10px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 2px;
+}
+.snum.g { background: var(--green); color: #051008; }
+.warn { color: var(--red2); font-weight: 700; }
+.em   { color: var(--green2); font-weight: 700; }
+
+/* ── CHANGE CARD ── */
+.change-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.change-header {
+  padding: 10px 14px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.change-body { padding: 2px 14px 12px; }
+.cc-red  .change-header { background: var(--red-bg);  color: var(--red2); }
+.cc-grn  .change-header { background: var(--grn-bg);  color: var(--green2); }
+.cc-amb  .change-header { background: var(--amb-bg);  color: var(--amber); }
+
+/* ── DIVIDER ── */
+.divider { height: 1px; background: var(--border); margin: 14px 0; }
+
+/* ── QUIZ ── */
+.qhdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.ql { font-size: 11px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: .5px; }
+.qr { font-size: 12px; font-weight: 800; color: var(--white); }
+.pbar { height: 3px; background: var(--bg3); border-radius: 2px; margin-bottom: 14px; overflow: hidden; }
+.pbar-fill { height: 100%; background: linear-gradient(90deg, var(--red), var(--red2)); border-radius: 2px; transition: width .4s cubic-bezier(.4,0,.2,1); }
+
+.qcard { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 16px 14px 14px; margin-bottom: 10px; }
+.chip { display: inline-flex; align-items: center; gap: 4px; background: var(--bg3); border: 1px solid var(--bord2); color: var(--text2); font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 100px; letter-spacing: .5px; text-transform: uppercase; margin-bottom: 10px; }
+.chip.scenario { background: var(--amb-bg); border-color: var(--amb-bd); color: var(--amber); letter-spacing: 0; font-size: 10px; }
+.chip.erc25 { background: var(--red-bg); border-color: var(--red-bd); color: var(--red2); }
+
+.qtext { font-size: 16px; font-weight: 700; line-height: 1.45; color: var(--white); margin-bottom: 16px; letter-spacing: -.1px; }
+.opts { display: grid; gap: 8px; }
+.opt {
+  background: var(--bg3);
+  border: 1.5px solid var(--border);
+  color: var(--text);
+  padding: 13px 12px;
+  min-height: 52px;
+  text-align: left;
+  cursor: pointer;
+  border-radius: var(--r);
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.4;
+  transition: border-color .12s, background .12s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+.opt:active:not(:disabled) { background: var(--bg4); border-color: var(--bord2); }
+.opt.correct { border-color: var(--ok);    background: var(--grn-bg); }
+.opt.wrong   { border-color: var(--wrong); background: var(--red-bg); }
+.oltr {
+  font-size: 11px; font-weight: 800; color: var(--muted);
+  min-width: 22px; height: 22px;
+  border-radius: 6px;
+  background: var(--bg2);
+  border: 1px solid var(--bord2);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: all .12s;
+}
+.opt.correct .oltr { background: var(--ok);    border-color: var(--ok);    color: #fff; }
+.opt.wrong   .oltr { background: var(--wrong); border-color: var(--wrong); color: #fff; }
+
+.fb { border-radius: var(--r); padding: 0; font-size: 13px; line-height: 1.6; display: none; margin-bottom: 10px; overflow: hidden; }
+.fb.show { display: block; }
+.fb.ok  { border: 1px solid var(--grn-bd); }
+.fb.bad { border: 1px solid var(--red-bd); }
+.fb-verdict { padding: 11px 14px 9px; font-size: 15px; font-weight: 800; letter-spacing: -.1px; }
+.fb.ok  .fb-verdict { background: var(--grn-bg); color: var(--green2); }
+.fb.bad .fb-verdict { background: var(--red-bg); color: var(--red2);   }
+.fb-correct { padding: 10px 14px 0; font-size: 13px; color: var(--text); }
+.fb-correct strong { color: var(--green2); }
+.fb-explain { padding: 8px 14px 13px; font-size: 13px; color: var(--text2); line-height: 1.65; border-top: 1px solid var(--border); margin-top: 8px; }
+
+.bigbtn {
+  width: 100%;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  padding: 15px;
+  border-radius: var(--r);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: .2px;
+  cursor: pointer;
+  transition: opacity .15s;
+  text-transform: uppercase;
+}
+.bigbtn:active { opacity: .85; }
+.bigbtn.out { background: transparent; border: 1.5px solid var(--bord2); color: var(--text2); margin-top: 8px; text-transform: none; font-weight: 600; }
+
+/* ── SCORE SCREEN ── */
+.score-screen { text-align: center; padding: 28px 4px; }
+.score-num { font-size: 76px; font-weight: 900; letter-spacing: -4px; color: var(--white); line-height: 1; }
+.score-pct { font-size: 14px; font-weight: 800; margin: 6px 0 3px; }
+.score-grade { font-size: 13px; color: var(--text2); margin-bottom: 24px; }
+.wlist { text-align: left; margin-bottom: 14px; }
+.wlist-title { font-size: 10px; font-weight: 800; color: var(--text2); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+.witem { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 11px 13px; margin-bottom: 7px; font-size: 13px; }
+.wq { font-weight: 600; color: var(--white); margin-bottom: 4px; line-height: 1.4; }
+.wa { color: var(--green2); font-size: 12px; }
+
+/* ── FLASHCARDS ── */
+.fc-area { perspective: 1200px; margin-bottom: 12px; min-height: 220px; }
+.fc {
+  width: 100%; min-height: 220px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform .4s cubic-bezier(.4,0,.2,1);
+  cursor: pointer;
+  -webkit-user-select: none; user-select: none;
+}
+.fc.flipped { transform: rotateY(180deg); }
+.fc-front, .fc-back {
+  position: absolute; inset: 0; min-height: 220px;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  border-radius: var(--r);
+  padding: 22px 18px;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center;
+}
+.fc-front { background: var(--bg2); border: 1px solid var(--border); }
+.fc-back { background: linear-gradient(135deg, #0e0405, #1c060a); border: 1px solid var(--red-bd); transform: rotateY(180deg); }
+.fc-front h2 { font-size: 17px; font-weight: 700; line-height: 1.45; color: var(--white); letter-spacing: -.2px; margin-bottom: 12px; }
+.fc-tap { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+.fc-back p { font-size: 15px; line-height: 1.65; color: var(--text); }
+.fc-back strong { color: var(--red2); font-weight: 700; }
+.fc-nav { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; margin-bottom: 8px; }
+.navbtn { background: var(--bg2); border: 1px solid var(--border); color: var(--text2); border-radius: var(--r); padding: 11px; font-size: 18px; cursor: pointer; font-family: inherit; transition: border-color .15s, color .15s; width: 100%; }
+.navbtn:active { border-color: var(--red); color: var(--red); }
+.fc-ctr { text-align: center; font-size: 12px; font-weight: 700; color: var(--text2); font-family: 'JetBrains Mono', monospace; }
+.fc-sel {
+  background: var(--bg2); border: 1px solid var(--border); color: var(--text);
+  padding: 12px 14px; font-family: 'Inter', sans-serif; font-size: 14px;
+  border-radius: var(--r); width: 100%; margin-bottom: 12px;
+  cursor: pointer; appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235a6e54'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px;
+}
+
+/* ── SCENARIOS ── */
+.sit {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  margin-bottom: 9px;
+  overflow: hidden;
+}
+.sit-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px;
+  cursor: pointer;
+}
+.sit-icon { font-size: 22px; flex-shrink: 0; }
+.sit-info { flex: 1; min-width: 0; }
+.sit-title { font-size: 14px; font-weight: 700; color: var(--white); }
+.sit-sub { font-size: 11px; color: var(--text2); margin-top: 1px; }
+.sit-arrow { color: var(--muted); font-size: 14px; transition: transform .2s; flex-shrink: 0; }
+.sit.open .sit-arrow { transform: rotate(90deg); color: var(--red); }
+.sit-body { display: none; padding: 0 14px 14px; border-top: 1px solid var(--border); margin: 0 0 0; padding-top: 12px; }
+.sit.open .sit-body { display: block; }
+
 </style>
 </head>
 <body>
 <header>
-  <span class="logo">FSU</span>
+  <div class="cross"></div>
   <h1>Førstehjælp ABC</h1>
+  <span class="erc-tag">ERC 2025</span>
 </header>
 
 <nav class="bnav">
@@ -134,103 +513,164 @@ tbody tr:nth-child(even) td{background:rgba(255,255,255,.015)}
 
 <!-- OVERSIGT -->
 <section id="oversigt" class="page active"><div class="wrap">
-  <div class="ptitle">Oversigt</div>
-  <div class="psub">ERC Retningslinjer 2025 · Opdateret Oktober 2025</div>
+  <div class="ptitle"><span class="ptitle-icon">📋</span> Oversigt</div>
+  <div class="psub">ERC Guidelines 2025 · Gælder fra januar 2026</div>
 
-  <!-- ERC 2025 badge -->
-  <div style="background:linear-gradient(135deg,rgba(74,222,128,.12),rgba(74,222,128,.05));border:1px solid rgba(74,222,128,.3);border-radius:10px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px">
-    <span style="font-size:20px">🆕</span>
+  <div class="erc-banner">
+    <div class="erc-banner-icon">🆕</div>
+    <div class="erc-banner-text">
+      <strong>ERC Guidelines 2025</strong>
+      <p>Lanceret okt. 2025. Vigtigste ændringer: ABCDE, to-tommelfingerteknik til spædbørn, AED til alle aldre, TQ 5–7 cm, åbne brystsår dækkes IKKE.</p>
+    </div>
+  </div>
+
+  <div class="sec-label">Tilgang til bevidstløs</div>
+  <div class="card card-amber">
+    <div class="punkt-list">
+      <div class="punkt-item"><span class="punkt-num">1</span><span>Skab sikkerhed — tjek straks for livsfarlig blødning</span></div>
+      <div class="punkt-item"><span class="punkt-num">2</span><span>Ring 1-1-2 straks — behøver ikke vente på vejrtrækningstjek</span></div>
+      <div class="punkt-item"><span class="punkt-num">3</span><span>Vurdér med <strong style="color:var(--white)">ABCDE</strong></span></div>
+    </div>
+  </div>
+
+  <div class="sec-label">ABCDE-metoden</div>
+
+  <div class="abc-tile">
+    <div class="abc-letter">A</div>
     <div>
-      <div style="font-size:12px;font-weight:800;color:var(--green);letter-spacing:.5px">ERC GUIDELINES 2025</div>
-      <div style="font-size:12px;color:var(--muted2);line-height:1.5">Lanceret 22. okt. 2025 · Gælder fra jan. 2026. Vigtige ændringer fra 2021: ABCDE-tilgang, ny spædbarnsteknik, tourniquet 5–7 cm, åbent brystsår dækkes IKKE.</div>
+      <div class="abc-tile-head">Airway · Luftveje</div>
+      <ul class="abc-list">
+        <li>Hageløft: 1 hånd på panden, 2 fingre under hagen</li>
+        <li>Hoved forsigtigt bagover til naturlig modstand</li>
+        <li>Barn 1 år–pubertet: halvt så langt bagover</li>
+        <li>Spædbørn &lt;1 år: neutral position</li>
+      </ul>
+    </div>
+  </div>
+  <div class="abc-tile">
+    <div class="abc-letter">B</div>
+    <div>
+      <div class="abc-tile-head">Breathing · Åndedræt</div>
+      <ul class="abc-list">
+        <li>Se, lyt og føl — maks. 10 sek.</li>
+        <li>Normal: 10–20 åndedræt/min, ubesværet</li>
+        <li>Agonal/rallende vejrtrækning → START HLR</li>
+        <li>Bevidstløs + normal vejrtrækning → stabilt sideleje</li>
+      </ul>
+    </div>
+  </div>
+  <div class="abc-tile">
+    <div class="abc-letter">C</div>
+    <div>
+      <div class="abc-tile-head">Circulation · Kredsløb</div>
+      <ul class="abc-list">
+        <li>Ingen/unormal vejrtrækning → HLR 30:2 straks</li>
+        <li>Overlevelse falder 10% pr. minut uden HLR</li>
+        <li>AED inden 3–5 min → 60–75% overlever</li>
+      </ul>
+    </div>
+  </div>
+  <div class="abc-tile">
+    <div class="abc-letter" style="font-size:26px;line-height:1.3;padding-top:4px">D<br>E</div>
+    <div>
+      <div class="abc-tile-head">Disability + Exposure · Ny 2025</div>
+      <ul class="abc-list">
+        <li><strong style="color:var(--white)">D:</strong> Bevidsthedsniveau, pupiller, blodsukker</li>
+        <li><strong style="color:var(--white)">E:</strong> Undersøg hele kroppen for skjulte skader</li>
+      </ul>
     </div>
   </div>
 
-  <div class="card card-a" style="margin-bottom:12px">
-    <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted2);margin-bottom:10px">Tilgang til bevidstløs person — ny rækkefølge</div>
-    <div style="display:grid;gap:8px">
-      <div style="display:flex;gap:10px;align-items:flex-start"><span style="min-width:24px;height:24px;background:var(--amber);color:#0a0a0a;border-radius:6px;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">1</span><span style="font-size:14px;font-weight:600;color:var(--white)">Skab sikkerhed — tjek for livsfarlig blødning straks (ny prioritet)</span></div>
-      <div style="display:flex;gap:10px;align-items:flex-start"><span style="min-width:24px;height:24px;background:var(--amber);color:#0a0a0a;border-radius:6px;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">2</span><span style="font-size:14px;font-weight:600;color:var(--white)">Ring 1-1-2 straks for alle bevidstløse — behøver ikke vente på vejrtrækningstjek</span></div>
-      <div style="display:flex;gap:10px;align-items:flex-start"><span style="min-width:24px;height:24px;background:var(--amber);color:#0a0a0a;border-radius:6px;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">3</span><span style="font-size:14px;font-weight:600;color:var(--white)">Vurdér med ABCDE (Airway, Breathing, Circulation, Disability, Exposure)</span></div>
+  <div class="sec-label">HLR nøgletal</div>
+
+  <div class="hlr-hero hlr-red">
+    <div class="hlr-num">30</div>
+    <div class="hlr-info">
+      <h3>Brystkompressioner</h3>
+      <p>5–6 cm dybde · 100–120/min<br>Håndroden midt på brystkassen<br>Maks. 10 sek. pause</p>
+      <span class="hlr-note">Tryk hårdt — vær ikke bange for at gøre skade</span>
     </div>
   </div>
-
-  <!-- ABCDE cards -->
-  <div class="card card-g"><div class="abc-row"><div class="abc-L">A</div><div class="abc-body"><h3>Airway · Luftveje</h3><ul><li>Placér på ryggen</li><li>Hageløft: 1 hånd på panden, 2 fingre under hagen</li><li>Hoved forsigtigt bagover til naturlig modstand</li><li>Barn 1–8 år: halvt så langt bagover</li><li>Småbørn 0–1 år: neutral position</li></ul></div></div></div>
-  <div class="card card-g"><div class="abc-row"><div class="abc-L">B</div><div class="abc-body"><h3>Breathing · Åndedræt</h3><ul><li>Se, lyt og føl — maks. 10 sek.</li><li>Normal: 10–20 åndedræt/min, ubesværet</li><li>Agonal/unormal vejrtrækning → START HLR</li><li>Bevidstløs + normal vejrtrækning → stabilt sideleje</li><li>Indpak mod kulde (alutæppe = 80% varme tilbage)</li></ul></div></div></div>
-  <div class="card card-g"><div class="abc-row"><div class="abc-L">C</div><div class="abc-body"><h3>Circulation · Kredsløb</h3><ul><li>Ingen/unormal vejrtrækning → HLR straks</li><li>30 kompressioner + 2 indblæsninger</li><li>Overlevelseskæde (4 led): Alarm → HLR + AED → Avanceret behandling → Rehabilitering</li><li>Overlevelse falder 10% pr. minut uden behandling</li><li>AED inden 3–5 min → 60–75% overlever</li></ul></div></div></div>
-  <div class="card card-g"><div class="abc-row"><div class="abc-L" style="font-size:38px">D+E</div><div class="abc-body"><h3>Disability + Exposure · Ny i 2025</h3><ul><li><strong>D – Disability:</strong> bevidsthedsniveau, pupiller, blodsukker</li><li><strong>E – Exposure:</strong> undersøg hele kroppen for skjulte skader/blødninger</li><li>Tilføjet til ABCDE-tilgangen i ERC 2025</li></ul></div></div></div>
-
-  <div class="divider"></div>
-  <div class="ptitle" style="font-size:18px;margin-bottom:12px">HLR Nøgletal</div>
-  <div class="hlr-hero hlr-r"><div class="hlr-num">30</div><div class="hlr-info"><h3>Brystkompressioner</h3><p>5–6 cm dybde · 100–120/min<br>Håndroden midt på brystkassen · strakte arme<br>Maks. 10 sek. pause til indblæsninger<br><span style="color:var(--green);font-weight:600">Hårde, hurtige tryk — vær ikke bange for at gøre skade</span></p></div></div>
-  <div class="hlr-hero hlr-g"><div class="hlr-num">2</div><div class="hlr-info"><h3>Indblæsninger</h3><p>Ca. 1 sek. · brystkassen skal hæve sig<br>Klem næse · mund mod mund<br>Utrænet? → Giv kun kompressioner (hands-only er bedre end ingenting)</p></div></div>
+  <div class="hlr-hero hlr-grn">
+    <div class="hlr-num">2</div>
+    <div class="hlr-info">
+      <h3>Indblæsninger</h3>
+      <p>Ca. 1 sek. · brystkassen hæver sig<br>Klem næse · mund mod mund</p>
+      <span class="hlr-note" style="color:var(--text2)">Utrænet? Kun kompressioner er bedre end ingenting</span>
+    </div>
+  </div>
   <div class="alert"><strong>VIGTIGT:</strong> HLR fortsættes til redningsmandskab overtager, personen trækker vejret normalt, eller ved udmattelse. Skift hjælper ca. hvert 2. min.</div>
 
-  <div class="divider"></div>
-  <div class="ptitle" style="font-size:18px;margin-bottom:12px">Nøgletal</div>
-  <div class="stat-row">
-    <div class="stat"><span class="sv">30:2</span><span class="sl">HLR voksne</span></div>
-    <div class="stat"><span class="sv">5–6cm</span><span class="sl">trykdybde</span></div>
-    <div class="stat"><span class="sv">10%</span><span class="sl">fald/min u. HLR</span></div>
-    <div class="stat"><span class="sv">60-75%</span><span class="sl">overlever tidlig AED</span></div>
-    <div class="stat"><span class="sv">3–5min</span><span class="sl">AED virker bedst</span></div>
-    <div class="stat"><span class="sv">10sek</span><span class="sl">maks. pause</span></div>
-    <div class="stat"><span class="sv">5–7cm</span><span class="sl">TQ over skade (2025)</span></div>
-    <div class="stat"><span class="sv">37°C</span><span class="sl">normal temp.</span></div>
+  <div class="sec-label">Nøgletal</div>
+  <div class="stat-grid">
+    <div class="stat"><span class="sv">30:2</span><span class="sl">HLR ratio voksne</span></div>
+    <div class="stat"><span class="sv">5–6 cm</span><span class="sl">trykdybde voksne</span></div>
+    <div class="stat"><span class="sv">10%</span><span class="sl">chance falder/min</span></div>
+    <div class="stat"><span class="sv">60–75%</span><span class="sl">overlever tidlig AED</span></div>
+    <div class="stat"><span class="sv">3–5 min</span><span class="sl">AED virker bedst</span></div>
+    <div class="stat"><span class="sv">10 sek</span><span class="sl">maks. pause HLR</span></div>
+    <div class="stat"><span class="sv">5–7 cm</span><span class="sl">TQ over skade (2025)</span></div>
+    <div class="stat"><span class="sv">37 °C</span><span class="sl">normal kropstemperatur</span></div>
   </div>
 
-  <div class="divider"></div>
-  <div class="ptitle" style="font-size:18px;margin-bottom:12px">HLR — Børn vs. voksne (ERC 2025)</div>
-  <div class="tbl-wrap"><table><thead><tr><th>Gruppe</th><th>Teknik</th><th>Dybde</th><th>Indblæsning</th><th>AED</th></tr></thead><tbody>
-    <tr><td>Voksne</td><td>2 hænder</td><td>5–6 cm</td><td>Mund-mund</td><td>✅</td></tr>
-    <tr><td>Børn 1 år–pubertet</td><td>1 hånd</td><td>5 cm (1/3)</td><td>Mund-mund</td><td>✅</td></tr>
-    <tr><td>Spædbørn &lt;1 år</td><td>2 tommelfingertek. ✦</td><td>4 cm (1/3)</td><td>Mund+næse</td><td>✅ (2025)</td></tr>
-  </tbody></table></div>
-  <div style="font-size:12px;color:var(--muted2);margin-bottom:16px;padding:0 4px">✦ <strong style="color:var(--green)">Ny i ERC 2025:</strong> 2-finger-teknikken er afskaffet. Brug to-tommelfinger-omsluttende-hænder-teknik (eller hæl-af-hånd). AED må nu bruges til alle aldre inkl. spædbørn.</div>
+  <div class="sec-label">HLR — Aldersgrupper (ERC 2025)</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Gruppe</th><th>Teknik</th><th>Dybde</th><th>Indblæsning</th><th>AED</th></tr></thead>
+      <tbody>
+        <tr><td>Voksne</td><td>2 hænder</td><td>5–6 cm</td><td>Mund–mund</td><td>✅</td></tr>
+        <tr><td>Børn (1 år–pubertet)</td><td>1 hånd</td><td>5 cm</td><td>Mund–mund</td><td>✅</td></tr>
+        <tr><td>Spædbørn &lt;1 år ✦</td><td>2 tommelfingertek.</td><td>4 cm</td><td>Mund+næse</td><td>✅ ✦</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:11px;color:var(--text2);margin-bottom:14px;line-height:1.5">✦ <strong style="color:var(--red2)">Ny ERC 2025:</strong> 2-finger-teknik afskaffet — brug to-tommelfinger-omsluttende-hænder-teknik. AED tilladt til alle aldre.</p>
 
-  <!-- Key 2025 changes box -->
-  <div class="divider"></div>
-  <div class="ptitle" style="font-size:18px;margin-bottom:12px">⚠️ Vigtige ændringer fra ERC 2025</div>
+  <div class="sec-label">Vigtige ændringer ERC 2025</div>
 
-  <div class="card" style="border-left:3px solid var(--amber)">
-    <div style="font-size:12px;font-weight:800;color:var(--amber);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Blødning — ny prioritet</div>
+  <div class="change-card cc-red">
+    <div class="change-header">⚠️ Åbent brystsår</div>
+    <div class="change-body">
+      <ul class="steps">
+        <li><span class="snum">!</span><span><span class="warn">Dæk IKKE lufttæt</span> — risiko for spændingspneumothorax</span></li>
+        <li><span class="snum g">✓</span><span>Lad såret kommunikere frit med omgivelserne</span></li>
+        <li><span class="snum g">?</span><span>Kun uddannet: brug ventileret forbinding (luft ud ved udånding)</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="change-card cc-amb">
+    <div class="change-header">🩸 Blødning — opdateret rækkefølge</div>
+    <div class="change-body">
+      <ul class="steps">
+        <li><span class="snum">1</span><span>Direkte manuelt tryk mod sår</span></li>
+        <li><span class="snum">2</span><span><span class="em">Hæmostatisk forbinding</span> anbefales nu — direkte i såret + tryk ovenpå</span></li>
+        <li><span class="snum">3</span><span>Tourniquet: <span class="em">5–7 cm over</span> skaden — aldrig på led</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="change-card cc-grn">
+    <div class="change-header">💧 Drukning</div>
+    <div class="change-body">
+      <ul class="steps">
+        <li><span class="snum">1</span><span>Utrænet: kast flydeanordning — gå <span class="warn">ikke</span> i vandet</span></li>
+        <li><span class="snum">2</span><span>På land: 5 indblæsninger → HLR 30:2</span></li>
+        <li><span class="snum">3</span><span>Tør brystkassen inden AED-elektroder påsættes</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sec-label">Stabilt sideleje — 5 trin</div>
+  <div class="card">
     <ul class="steps">
-      <li><span class="snum">1</span><span>Direkte manuelt tryk mod sår — stadig første skridt</span></li>
-      <li><span class="snum">2</span><span><span class="em">Hæmostatisk forbinding</span> anbefales nu aktivt — lægges i såret + fast tryk ovenpå</span></li>
-      <li><span class="snum">3</span><span>Tourniquet ved livstruende ekstremitetsblødning der ikke stoppes: <span class="em">5–7 cm over skaden</span> (ikke 10 cm)</span></li>
-      <li><span class="snum">4</span><span>Skriv tidspunkt på TQ — løsnes ALDRIG af ikke-sundhedspersonale</span></li>
+      <li><span class="snum">1</span><span>Nærmeste arm vinkelret ud, håndflade opad</span></li>
+      <li><span class="snum">2</span><span>Fjerneste arm over bryst — håndryg mod nærmeste kind</span></li>
+      <li><span class="snum">3</span><span>Bøj fjerneste ben — træk personen mod dig ved benet</span></li>
+      <li><span class="snum">4</span><span>Tilpas hofte og knæ til 90° vinkler</span></li>
+      <li><span class="snum">5</span><span>Hoved bagover med hånd under kind — sikr frie luftveje</span></li>
     </ul>
   </div>
-
-  <div class="card" style="border-left:3px solid var(--red)">
-    <div style="font-size:12px;font-weight:800;color:var(--red);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Åbent brystsår — kritisk ændring</div>
-    <ul class="steps">
-      <li><span class="snum">!</span><span><span class="warn">Dæk IKKE et åbent brystsår med en lufttæt forbinding</span> — risiko for spændingspneumothorax</span></li>
-      <li><span class="snum">✓</span><span>Lad såret kommunikere frit med omgivelserne (åbent)</span></li>
-      <li><span class="snum">✓</span><span>Kun hvis uddannet: brug ventileret/ikke-okklusiv forbinding der tillader luft ud</span></li>
-    </ul>
-  </div>
-
-  <div class="card" style="border-left:3px solid var(--green)">
-    <div style="font-size:12px;font-weight:800;color:var(--green);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Drukning — opdateret</div>
-    <ul class="steps">
-      <li><span class="snum">1</span><span>Utrænet: kast flydeanordning — gå <span class="warn">ikke</span> i vandet</span></li>
-      <li><span class="snum">2</span><span>Trænet: gå i vand med flydeanordning hvis sikkert</span></li>
-      <li><span class="snum">3</span><span>På land: 5 indblæsninger → standard HLR 30:2</span></li>
-      <li><span class="snum">4</span><span>Tør brystkassen inden AED-elektroder påsættes</span></li>
-    </ul>
-  </div>
-
-  <div class="divider"></div>
-  <div class="ptitle" style="font-size:18px;margin-bottom:12px">Stabilt sideleje — 5 trin</div>
-  <div class="card"><ul class="steps">
-    <li><span class="snum">1</span><span>Nærmeste arm vinkelret ud, håndflade opad</span></li>
-    <li><span class="snum">2</span><span>Fjerneste arm over bryst — håndryg mod nærmeste kind</span></li>
-    <li><span class="snum">3</span><span>Bøj fjerneste ben i knæ — træk personen mod dig</span></li>
-    <li><span class="snum">4</span><span>Tilpas hofte og knæ til 90° vinkler</span></li>
-    <li><span class="snum">5</span><span>Hoved bagover med hånd under kind — sikr frie luftveje</span></li>
-  </ul></div>
 </div></section>
 
 <!-- QUIZ -->
@@ -238,8 +678,8 @@ tbody tr:nth-child(even) td{background:rgba(255,255,255,.015)}
 
 <!-- FLASHCARDS -->
 <section id="flashcards" class="page"><div class="wrap">
-  <div class="ptitle">Flashcards</div>
-  <div class="psub">Tryk for svar · Swipe til næste</div>
+  <div class="ptitle"><span class="ptitle-icon">🃏</span> Flashcards</div>
+  <div class="psub">Tryk for svar · Swipe til næste kort</div>
   <select class="fc-sel" id="fc-cat" onchange="loadFC()">
     <option value="alle">Alle emner</option>
     <option value="hlr">HLR & Hjertestop</option>
@@ -263,8 +703,8 @@ tbody tr:nth-child(even) td{background:rgba(255,255,255,.015)}
 
 <!-- SITUATIONER -->
 <section id="situationer" class="page"><div class="wrap">
-  <div class="ptitle">Scenarier</div>
-  <div class="psub">Tryk for at se handlingsplan trin for trin</div>
+  <div class="ptitle"><span class="ptitle-icon">🚨</span> Scenarier</div>
+  <div class="psub">Tryk for trin-for-trin handlingsplan</div>
   <div id="sit-list"></div>
 </div></section>
 
@@ -656,11 +1096,12 @@ const SITS=[
 
 function buildSits(){
   const list=document.getElementById('sit-list');
-  SITS.forEach(s=>{
+  const subtitles=['Alarm · HLR · AED','Stop blødning · TQ','Rygslag · Heimlich · HLR','Bjærg · Indblæsn. · HLR','Strøm af · Afstand · ABC','Gå aldrig ned · Ring 112','Sikkerhed · Forbind · 112','Tegn · Handling · 112'];
+  SITS.forEach((s,i)=>{
     const stepsHTML=s.steps.map((step,j)=>`<li><span class="snum">${j+1}</span><span>${step.w?`<span class="warn">${step.t}</span>`:step.e?`<span class="em">${step.t}</span>`:step.t}</span></li>`).join('');
     const div=document.createElement('div');
     div.className='sit';
-    div.innerHTML=`<div class="sit-head" onclick="this.parentElement.classList.toggle('open')"><span class="sit-icon">${s.icon}</span><span class="sit-title">${s.title}</span><span class="sit-arrow">›</span></div><div class="sit-body"><ul class="steps">${stepsHTML}</ul></div>`;
+    div.innerHTML=`<div class="sit-head" onclick="this.parentElement.classList.toggle('open')"><span class="sit-icon">${s.icon}</span><div class="sit-info"><div class="sit-title">${s.title}</div><div class="sit-sub">${subtitles[i]||''}</div></div><span class="sit-arrow">›</span></div><div class="sit-body"><ul class="steps">${stepsHTML}</ul></div>`;
     list.appendChild(div);
   });
 }
